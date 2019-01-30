@@ -1,0 +1,478 @@
+\documentclass[a5paper,6pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[MeX]{polski}
+\usepackage{geometry}
+% \usepackage{amsmath}
+% \usepackage{amsthm}
+% \usepackage{amsfonts}
+% \usepackage{cases}
+% \usepackage{enumitem}
+% \usepackage{mathtools}
+% \usepackage{amssymb}
+
+\newgeometry{tmargin=2cm, bmargin=2cm, lmargin=1.5cm, rmargin=1.5cm}
+\setlength{\parindent}{0cm}
+% \linespread{0.9}
+
+% \newtheoremstyle{mythmstyle}%
+%     {}%
+%     {}%
+%     {\it}%
+%     {}%
+%     {\bf}%
+%     {}%
+%     { }%
+%     {\thmname{#1}. \normalfont #3 \hfill \\ }
+% \theoremstyle{mythmstyle}
+
+% % \newtheorem{example}{Przykład}[section]
+% \newtheorem*{question}{Pytanie}
+
+% \newcommand\ass{\mathrel{\overset{\makebox[0pt]{\mbox{\normalfont\tiny\sffamily zał}}}{=}}}
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}}
+\newcommand\tab[1][1cm]{\hspace*{#1}}
+
+\title{Bazy Danych}
+\author{Pytania egzaminacyjne}
+\date{2018/2019}
+\frenchspacing
+
+\begin{document}
+    \maketitle
+    \tableofcontents
+    \pagebreak
+
+    \section{Architektury systemów baz danych} % (fold)
+    \label{sec:architektury_systemow}
+
+    % section architektury_systemów_baz_danych (end)
+
+    \section{Relacyjny model danych, normalizacja relacji} % (fold)
+    \label{sec:relacyjny_model_danych_normalizacja_relacji}
+
+    \horrule{0.5pt}
+    Proszę podać przykład tabeli (relacji), która jest w trzeciej postaci
+    normalnej, ale nie jest w postaci normalnej Boyce’a Codd’a.\\
+    \horrule{0.5pt}
+
+    \horrule{0.5pt}
+    Dla tabeli (relacji) z podanymi zależnościami funkcyjnymi proszę powiedzieć w której postaci normalnej jest ta tabela.\\
+    \horrule{0.5pt}
+
+    \horrule{0.5pt}
+    Podaną tabelę należy doprowadzić do postaci normalnej Boyce’a Codd’a.\\
+    \horrule{0.5pt}
+
+    \horrule{0.5pt}
+    Proszę podać przykład uzasadniający denormalizację.\\
+    \horrule{0.5pt}
+
+    \horrule{0.5pt}
+    Proszę podać przykład tabeli, która jest w postaci normalnej Boyce’a Codd’a,
+    a w której jest redundancja.\\
+    \horrule{0.5pt}
+
+    \horrule{0.5pt}
+    Proszę podać przykład tabeli, która jest w 5NF, ale jest w niej
+    redundancja.\\
+    \horrule{0.5pt}
+
+    \horrule{0.5pt}
+    Proszę \underline{przedstawić} algorytm doprowadzenia relacji do
+    \textbf{postaci normalnej Boyce’a Codd’a}.\\
+    \horrule{0.5pt}
+
+    \begin{itemize}
+        \item Szukamy wszystkich nietrywialnych, pełnych zależności funkcyjnych,
+              które naruszają warunek BCNF, tzn. lewa strona zalezności
+              funkcyjnej nie jest nadkluczem.
+        \item Bierzemy jedną z takich zależności funkcyjnych $A \rightarrow B$
+              (obojetnie którą, algorym jest niederministyczny).
+        \item Dzielimy schemat relacji na dwa nierozłączne podzbiory:
+              jeden zawierający wszystkie atrybuty wystepujące w zależności (*)
+              naruszającej BCNF,
+              drugi zawierający atrybuty z lewej storny rozważanej zależności
+              (*) oraz atrubuty nie wystąpujące ani z lewej ani z prawej strony
+              tej zależności.
+        \item Strategie stosujemy do relacji powstałych w wyniku dekompozycji
+              do chwili, gdy wszystkie relacje są w BCNF.
+    \end{itemize}
+
+    % section relacyjny_model_danych_normalizacja_relacji (end)
+
+    \section{Model ER} % (fold)
+    \label{sec:model_er}
+
+    \horrule{0.5pt}
+    Proszę przedstawić przykład diagramu ER w notacji Barkera, zawierającego
+    dwie encje i związek między nimi (związek bez własnych atrybutów). Diagram
+    powinien być taki, że po jego transformacji do modelu relacyjnego otrzymamy
+    trzy relacje (trzy tabele).\\
+    \horrule{0.5pt}
+
+    \horrule{0.5pt}
+    Proszę \underline{omówić} trzy schematy transformacji hierarchii encji do modelu relacyjnego.\\
+    \horrule{0.5pt}
+
+    \begin{enumerate}
+        \item Utworzenie jednej tabeli ze wszystkimi atrybutami i kluczami
+              obcymi, tj. wspólnymi i specyficznymi dla podencji.
+        \item Utworzenie osobej tabeli dla każdej podencji.
+        \item Utworzenie osobnej tabeli na atrybuty wspólne i osobnej tabeli
+              dla każdej podencji.\\
+              Tabele powstałe z podencji zawierają klucz podstawiowy i atrybuty
+              specyficzne, tabela wspólna i tabele powstałe z podencji są
+              połączone ograniczeniami referencyjnymi.
+    \end{enumerate}
+
+    % section model_er (end)
+
+    \section{Transakcje} % (fold)
+    \label{sec:transakcje}
+
+    \subsection{Właściwiości (ACID)} % (fold)
+    \label{sub:wlasciwiosci}
+
+    \horrule{0.5pt}
+     Proszę omówić własności \textbf{ACID} transakcji. W jaki sposób
+          implementowane są własności \textbf{A i D}? Proszę podać jak
+          wykorzystywany jest \textbf{dziennik transakcji} oraz co to jest
+          strategia \textbf{No-Fix/No-Flush} i jak wpływa ona na sposoby
+          odtwarzania systemu po awarii.\\
+    \horrule{0.5pt}
+
+    \textbf{WŁASNOŚCI ACID}
+    \begin{itemize}
+        \item \textbf{Atomicity} (atomowość, niepodzielność)
+        \begin{itemize}
+            \item Transakcja jest niepodzielną jednostką przetwarzania, musi
+                  być wykonywana w całości lub wcale.
+        \end{itemize}
+
+        \item \textbf{Consistency} (spójność)
+        \begin{itemize}
+            \item Po wykonaniu transakcji baza danych musi być w stanie spójnym,
+                  tj. muszą zostać zachowane wszystkie więzy narzucone na dane.
+        \end{itemize}
+
+        \item \textbf{Isolation} (separacja, izolacja)
+        \begin{itemize}
+            \item Transakcja powinna wyglądać tak, jakby była wykonywana w
+                  izolacji od innych transakcji.
+        \end{itemize}
+
+        \item \textbf{Durability} (trwałość)
+        \begin{itemize}
+            \item Po zatwierdzeniu transakcji jej efekty muszą być trwałe w
+                  systemie, nawet jeśli nastąpi uszkodzenie systemu natychmiast
+                  po zatwierdzeniu.
+        \end{itemize}
+
+    \end{itemize}
+
+    \textbf{IMPLEMENTACJA A I D}
+    \begin{itemize}
+        \item Za odtwarzanie i w pewnym sensie za \textbf{atomowość, trwałość}
+              oraz spójność, jest odpowiedzialny \textbf{moduł zarządzania
+              odtwarzaniem} \textit{(recovery-management component).}
+
+        \item Modyfikacja danych następuje w buforze w pamięci RAM. Buforem
+              zarządza specjalny menadżer (zarządca). W pewnym momencie zarządca
+              bufora musi skopiować nową zawartość bloku z powrotem na dysk.
+    \end{itemize}
+
+    \textbf{STRATEGIA NO-FIX/NO-FLUSH}
+    \begin{itemize}
+        \item Stosowana w większości relacyjnych systemów baz zdanych
+              wykorzystujących dzienniki transakcji.
+
+        \item \textbf{NO-FIX}
+        \begin{itemize}
+            \item Blok skopiowany do RAM \textbf{może} być skopiowany lub
+                  przeniesiony z powrotem na dysk zanim transakcja, która ten
+                  blok zmodyfikowała się skończy.
+        \end{itemize}
+
+        \item \textbf{NO-FLUSH}
+        \begin{itemize}
+            \item Na końcu transakcji \textbf{nie ma obowiązku}
+                  zsynchronizowania zmienionych przez tę transakcję bloków
+                  z dyskiem.
+            \item Synchronizacja może być wykonana później.
+            \item Zwiększa wydajność.
+            \item Na tradycyjnych dyskach HDD operacje kopiowania bloków mogą
+                  być grupowane.
+        \end{itemize}
+    \end{itemize}
+
+    \textbf{WPŁYW NA SPOSOBY ODTWARZANIA SYSTEMU PO AWARII}
+    \begin{itemize}
+        \item \textbf{No-Flush} oznacza, że nie mamy gwarancji, że natychmiast
+              po zakończeniu transakcji na dysku znajdą się zmienione dane.
+        \item Trwałość transakcji w większości systemów zapewniają
+              \textbf{dzienniki transakcji}.
+        \item \textbf{No-Fix} oznacza, że może się zdarzyć, że blok zmieniony
+              przez transakcje zostanie skopiowany na dysk, zanim transakcja
+              zakończy się.
+        \item Synchronizacja buforów z RAM z dyskiem może być realizowane
+              cyklicznie w ramach \textbf{punktów kontrolnych}
+              \textit{(control point, check point)}.
+        \item \textbf{Punkty kontrolne} ułatwiają \textbf{odtwarzanie systemu
+              po awarii}, kiedy dyski z danymi i z dziennikiem transakcji nie
+              zostały uszkodzone.
+
+        \item \textbf{Odtwarzanie po awarii systemu (RECOVERY)}
+        \begin{itemize}
+            \item redo
+            \item undo
+        \end{itemize}
+
+        \item \textbf{Odtwarzanie po awarii dysków z danymi}
+        \begin{itemize}
+            \item RESTORE (przywracanie plików z kopii zapasowych)
+            \item RECOVERY
+        \end{itemize}
+    \end{itemize}
+
+    \textbf{STOSOWANIE DZIENNIKA TRANSAKCJI}
+    \begin{itemize}
+        \item \textbf{Dziennik transakcji} jest plikiem na dysku, zawierającym
+              \textbf{informację o wszystkich wprowadzonych} przez transakcję
+              \textbf{zmianach}.
+        \item Transakcja \textbf{nie jest uznana} za zakończoną, jeśli fizycznie
+              na dysku w pliku dziennika nie znajdą się wpisy opisujące
+              wszystkie zmiany oraz informacja o zatwierdzeniu transakcji.
+        \item Wpis (rekord) w dzienniku może zawierać znacznik transakcji, starą
+              i nową wartość zmienianego elementu, informację o rodzaju operacji,
+              może zawierać informację o tzw. operacji kompensującej. Są też
+              wpisy dotyczące rozpoczęcia transakcji i jej zatwierdzenia, w
+              pewnych systemach także wpisy dotyczące operacji odczytu.
+        \item Dzięki dziennikowi można powtórzyć te operacje, których efekty nie
+              zostały jeszcze zapisane na dysku, mimo że operacja została
+              zatwierdzona (no-flush).
+        \item \textbf{W przypadku odtwarzania po awarii} może być wymagane
+              \textbf{powtórzenie} \textit{(redo)} niektórych operacji
+              (zatwierdzone) i \textbf{wycofanie} \textit{(undo)} innych
+              (niezatwierdzone).
+    \end{itemize}
+
+    \horrule{0.5pt}
+
+    % subsection właściwiości (end)
+
+    \subsection{Harmonogramy, szeregowalność konfliktowa i perspektywiczna} % (fold)
+    \label{sub:harmonogramy_szeregowalnosc_konfliktowa_i_perspektywiczna}
+
+    \horrule{0.5pt}
+    Proszę podać definicje \textbf{harmonogramu szeregowalnego, szeregowalnego
+    konfliktowo i szeregowalnego perspektywicznie}. Jakie znaczenie w praktyce
+    ma pojęcie \textbf{szeregowalności konfliktowej?}\\
+    \horrule{0.5pt}
+
+    \textbf{HARMONOGRAM SZEREGOWALNY}
+    \begin{itemize}
+        \item \textbf{Jeśli jego wpływ na stan bazy danych jest taki sam jak
+              pewnego harmonogramu szeregowego, niezależnie od stanu
+              początkowego tej bazy danych}.
+        \item Harmonogramy są \textbf{równoważne co do wyniku}
+              \textit{(result equivalent)}, jeżeli dają ten sam stan bazy danych
+              bez względu na początkowy stan bazy.
+    \end{itemize}
+
+    \textbf{HARMONOGRAM SZEREGOWALNY KONFLIKTOWO}
+    \textit{(conflict serializable)}
+    \begin{itemize}
+        \item Harmonogramy są \textbf{równoważne konfliktowo}
+              \textit{(conflict equivalent)} jeżeli kolejność wszystkich
+              operacji konfliktowych jest w nich taka sama.
+        \item Harmonogram \textbf{S} jest \underline{szeregowalny konfliktowo},
+        jeżeli jest on \underline{równoważny} \underline{konfliktowo} z pewnym
+        szeregowym harmonogramem \textbf{S'}.
+        \item W takim przypadku możemy zamieniać kolejność niekonfliktowych
+        operacji w \textbf{S} do momentu, aż utworzony zostanie równoważny
+        harmonogram szeregowy \textbf{S'}.
+    \end{itemize}
+
+    \textbf{HARMONOGRAM SZEREGOWALNY PERSPEKTYWICZNIE}
+    \textit{(view serializability)}
+    \begin{itemize}
+        \item Jest on \textbf{równoważny perspektywicznie} pewnemu
+        harmonogramowi szeregowemu.
+        \item \textbf{Równoważność perspektywiczna}:
+        \begin{itemize}
+            \item Harmonogram \textbf{S i S'} zwierają te same instrukcje i dla
+                  każdego elementu danych \textbf{Q}:
+            \begin{enumerate}
+                \item $T_k$ jest transakcją, która czyta \textbf{Q} jako
+                      pierwsza $=>$ $T_k$ musi być transakcją, która czyta
+                      \textbf{Q} jako pierwsza.
+                \item $T_i$ czyta \textbf{Q} zapisany przez $T_j => T_i$ czyta
+                      \textbf{Q} zapisany przez $T_j$
+                \item $T_m$ jest ostatnią transakcją, która zapisuje \textbf{Q}
+                      $=> T_m$ jest ostatnią transakcją, która zapisuje
+                      \textbf{Q}
+            \end{enumerate}
+        \end{itemize}
+        \item Oznacza to samo co \textbf{szeregowalność konfliktowa, jeśli}
+              założymy ograniczenie co do operacji \textbf{zapisów} we
+              wszystkich transakcjach harmonogramu.
+        \begin{itemize}
+            \item Każda operacja \texttt{WRITE[x]} jest poprzedzona operacją
+                  \texttt{READ[x]}
+            \item Wartość zapisana przez \texttt{WRITE[x]} zależy tylko od
+                  wartości elementu \texttt{x} odczytanej przez operacje
+                  \texttt{READ[x]} (jest pewną nie stałą funkcją tylko elementu
+                  \texttt{x}, nie zależy od wartości innych elementów.)
+        \end{itemize}
+
+        \item Szeregowalność perspektywiczna zapenia \textbf{spójność} bazy
+              danych, ponieważ powoduje, że wyniki harmonogramu są takie same
+              jak wyniki pewnego harmonogamu szeregowego.
+    \end{itemize}
+
+    \textbf{ZNACZENIE W PRAKTYCE SZEREGOWALNOŚCI KONFLIKTOWEJ}
+    \begin{itemize}
+        \item Zapewnia \textbf{spójność} bazy danych.
+    \end{itemize}
+
+    \horrule{0.5pt}
+    Proszę podać przykłady harmonogramów szeregowalnych nie szeregowych.\\
+    \horrule{0.5pt}
+
+    \horrule{0.5pt}
+    Proszę podać przykłady harmonogramów szeregowalnych konfliktowo i takich,
+    które nie są szeregowalne konfliktowo.\\
+    \horrule{0.5pt}
+
+    % subsection harmonogramy_szeregowalność_konfliktowa_i_perspektywiczna (end)
+
+    \subsection{Poziomy izolacji transakcji} % (fold)
+    \label{sub:poziomy_izolacji_transakcji}
+
+    \horrule{0.5pt}
+    Proszę omówić poziom izolacji transakcji wybrany przez egzaminatora.\\
+    \horrule{0.5pt}
+
+
+    % subsection poziomy_izolacji_transakcji (end)
+
+    \subsection{Sterowanie współbieżnymi transakcjami w oparciu o blokady} % (fold)
+    \label{sub:sterowanie_wspolbieznymi_blokady}
+
+    % subsection sterowanie_współbieżnymi_transakcjami_w_oparciu_o_blokady (end)
+
+    \subsection{Sterowanie współbieżnymi transakcjami z wykorzystaniem
+    wielowersyjności i blokad} % (fold)
+    \label{sub:sterowanie_wspolbieznymi_wielowier}
+
+    \horrule{0.5pt}
+    Dla przedstawionego harmonogramu proszę podać jak będzie wyglądać sterowanie
+    współbieżnością w wybranym przez egzaminatora poziomie izolacji
+    transakcji.\\
+    \horrule{0.5pt}
+
+    \horrule{0.5pt}
+    Proszę omówić wybrane przez egzaminatora problemy związane ze współbieżnym
+    wykonaniem transakcji.\\
+    \horrule{0.5pt}
+
+    % subsection sterowanie_współbieżnymi_transakcjami (end)
+
+    \subsection{Zakleszczenia} % (fold)
+    \label{sub:zakleszczenia}
+
+    \horrule{0.5pt}
+    Proszę napisać przykładowy harmonogram, który doprowadzi do zakleszczenia.
+    Jak mogą być wykrywane zakleszczenia?\\
+    \horrule{0.5pt}
+
+    % subsection zakleszczenia (end)
+
+    \subsection{Kursory, sterowanie współbieżnością w kursorach} % (fold)
+    \label{sub:kursory_sterowanie_wspolbieznoscia_w_kursorach}
+
+    \horrule{0.5pt}
+    Proszę omówić, jak wygląda sterowanie współbieżnością w kursorach w systemie
+    Microsoft SQL Server.\\
+    \horrule{0.5pt}
+
+    % subsection kursory_sterowanie_współbieżnością_w_kursorach (end)
+
+    % section transakcje (end)
+
+    \section{Język SQL} % (fold)
+    \label{sec:jezyk_sql}
+
+    \horrule{0.5pt}
+    Proszę napisać zdanie w języku SQL, które zrealizuje cel podany przez egzaminatora.\\
+    \horrule{0.5pt}
+
+
+    % section język_sql (end)
+
+    \section{Procedury, funkcje i wyzwalacze} % (fold)
+    \label{sec:procedury_funkcje_i_wyzwalacze}
+
+    \horrule{0.5pt}
+    Proszę napisać procedurę w języku Transact SQL, funkcjonalność procedury
+    poda egzaminator.\\
+    \horrule{0.5pt}
+
+    \horrule{0.5pt}
+    Proszę napisać funkcję skalarną w języku Transact SQL, opisaną przez egzaminatora.\\
+    \horrule{0.5pt}
+
+    \horrule{0.5pt}
+    Proszę napisać w języku Transact SQL opisaną przez egzaminatora funkcję zwracającą zestaw rekordów.\\
+    \horrule{0.5pt}
+
+    \horrule{0.5pt}
+    Proszę napisać w języku Transact SQL wyzwalacz, który zrealizuje zadaną
+    przez egzaminatora funkcjonalność.\\
+    \horrule{0.5pt}
+
+    % section procedury_funkcje_i_wyzwalacze (end)
+
+    \section{Indeksy, typy indeksów, statystyki, wykorzystanie przez
+             optymalizatory kwerend} % (fold)
+    \label{sec:indeksy}
+
+    \horrule{0.5pt}
+    Proszę omówić budowę indeksu typu drzewo B+. Proszę podać wersje tego
+    indeksu (w systemie Microsoft SQL Server: clustered i non-clustered, w
+    Oracle IOT).\\
+    \horrule{0.5pt}
+
+    % section indeksy (end)
+
+    \section{Budowa fizyczna baz danych - macierze RAID} % (fold)
+    \label{sec:budowa_fizyczna_baz_danych_macierze_raid}
+
+    \horrule{0.5pt}
+    Proszę omówić macierze RAID (wybrany przez egzaminatora poziom).\\
+    \horrule{0.5pt}
+
+    % section budowa_fizyczna_baz_danych_macierze_raid (end)
+
+    \section{Charakterystyka baz danych NoSQL} % (fold)
+    \label{sec:charakterystyka_baz_danych_nosql}
+
+    \horrule{0.5pt}
+    Proszę powiedzieć co oznacza termin skalowanie poziome w systemach baz
+    danych i jak realizowane jest skalowanie poziome w bazach danych NoSQL.\\
+    \horrule{0.5pt}
+
+    \horrule{0.5pt}
+    Proszę podać główne typy baz danych NoSQL. Proszę podać przykłady dokumentów
+    w formacie JSON. Jak dokumenty są przechowywane w systemach NoSQL
+    zawierających wiele węzłów (komputerów) połączonych siecią komputerową?
+    Czy łączenie danych z różnych dokumentów odbywa się na ogół w bazie danych
+    (jak operacja JOIN w bazach relacyjnych), czy w aplikacji? Czy w bazach
+    dokumentowych należy unikać redundancji tak, jak w systemach relacyjnych?\\
+    \horrule{0.5pt}
+
+    % section charakterystyka_baz_danych_nosql (end)
+
+\end{document}
