@@ -17,7 +17,8 @@
                            ~\\\hline~\endtabular}
 \seticonparams{entity}{shadow,fillcolor=black!20,fillstyle=solid,framesep=0pt}
 
-\setmainfont[Color=primary, Path = fonts/lato/,BoldItalicFont=Lato-RegIta,BoldFont=Lato-Reg,ItalicFont=Lato-LigIta]{Lato-Lig}
+\setmainfont[Color=primary, Path = fonts/lato/,
+BoldItalicFont=Lato-RegIta,BoldFont=Lato-Reg,ItalicFont=Lato-LigIta]{Lato-Lig}
 \setmonofont{Fira Code Light}
 
 \colorlet{punct}{red!60!black}
@@ -59,8 +60,8 @@
 
     Relacja \texttt{\{Miasto, Ulica, Kod\}}\\
     Klucze: \texttt{(Miasto, Ulica)} oraz \texttt{(Ulica, Kod)}\\
-    Zależności funkcyjne: \texttt{ (Miasto, Ulica) $\rightarrow$ Kod} oraz
-                          \texttt{Kod $\rightarrow$ Miasto}\\
+    Zależności funkcyjne: \texttt{ (Miasto, Ulica) --> Kod} oraz
+                          \texttt{Kod --> Miasto}\\
 
     \textbf{1PN}
     \begin{itemize}
@@ -69,14 +70,14 @@
 
     \textbf{2PN}
     \begin{itemize}
-        \item Jest w 1PN
+        \item Jest w 1PN.
         \item Żaden niekluczowy atrybut nie jest
               cześciowo funkcyjnie zależny od jakiekolwiek klucza potencjalnego.
     \end{itemize}
 
     \textbf{3PN}
     \begin{itemize}
-        \item Jest w 2PN
+        \item Jest w 2PN.
         \item Żaden niekluczowy atrybut nie jest zależny
               funkcyjnie od innych niekluczowych atrybutów.
     \end{itemize}
@@ -85,18 +86,80 @@
     \texttt{Kod $\rightarrow$ Miasto}, \texttt{ Miasto} zawiera sie w kluczu
     \texttt{(Miasto, Ulica)}.\\
 
+\pagebreak
 
     \horrule{0.5pt}
     Dla tabeli (relacji) z podanymi zależnościami funkcyjnymi proszę powiedzieć
     w której postaci normalnej jest ta tabela.\\
     \horrule{0.5pt}
 
-    \horrule{0.5pt}
-    Podaną tabelę należy doprowadzić do postaci normalnej Boyce’a Codd’a.\\
-    \horrule{0.5pt}
+\pagebreak
 
     \horrule{0.5pt}
-    Proszę \underline{podać przykład} uzasadniający denormalizację.\\
+    Podaną tabelę należy doprowadzić do
+    \textbf{postaci normalnej Boyce’a Codd’a}.\\
+    \horrule{0.5pt}
+
+    \textbf{PRZYKŁAD 1.}
+
+    \vskip 0.5cm
+
+\begin{adjustbox}{width=\columnwidth,center}
+    % \begin{center}
+    \begin{tabular}{|l|l|l|l|l|l|}
+        \hline
+        \textbf{Tytuł} &
+        \textbf{Rok} &
+        \textbf{Długość} &
+        \textbf{TypFilmu} &
+        \textbf{NazwaStudia} &
+        \textbf{AdresStudia}\\
+        \hline
+        Gwiezdne Wojny &
+        1977 &
+        124 &
+        kolor &
+        Fox &
+        Hollywood \\
+        \hline
+        Poteżne Kaczory &
+        1991 &
+        104 &
+        kolor &
+        Disney &
+        Buena Vista \\
+        \hline
+        Świat Wayna &
+        1992 &
+        95 &
+        kolor &
+        Paramount &
+        Hollywood \\
+        \hline
+        Rodzina Adamsów &
+        1991 &
+        102 &
+        kolor &
+        Paramount &
+        Hollywood \\
+        \hline
+        \end{tabular}
+    % \end{center}
+\end{adjustbox}
+
+    \vskip 0.5cm
+
+    \textbf{Klucz:} \texttt{\{Tytuł, Rok\}}\\
+    \textbf{Zależność funkcyjna:} \texttt{\{NazwaStudia\} --> \{AdresStudia\}}\\
+
+    \textbf{Dekomponujemy schemat na dwa zbiory:}\\
+    \texttt{\{NazwaStudia, AdresStudia\}}\\
+    \texttt{\{NazwaStudia, Tytuł, Rok, Długość, TypFilmu\}}\\
+
+\pagebreak
+
+    \horrule{0.5pt}
+    Proszę \underline{podać przykład} uzasadniający \textbf{denormalizację}.\\
     \horrule{0.5pt}\\
 
     \texttt{\textbf{Adresy:}\\
@@ -173,15 +236,21 @@
     wyjściowa relacja \texttt{Adresy} (chociaż jest tylko w 2NF, nie jest w
     3NF).
 
+\pagebreak
+
     \horrule{0.5pt}
     Proszę podać przykład tabeli, która jest w postaci normalnej Boyce’a Codd’a,
     a w której jest redundancja.\\
     \horrule{0.5pt}
 
+\pagebreak
+
     \horrule{0.5pt}
     Proszę podać przykład tabeli, która jest w 5NF, ale jest w niej
     redundancja.\\
     \horrule{0.5pt}
+
+\pagebreak
 
     \horrule{0.5pt}
     Proszę \underline{przedstawić} algorytm doprowadzenia relacji do
@@ -198,13 +267,15 @@
               jeden zawierający wszystkie atrybuty wystepujące w zależności (*)
               naruszającej BCNF,
               drugi zawierający atrybuty z lewej strony rozważanej zależności
-              (*) oraz atrubuty nie wystąpujące ani z lewej ani z prawej strony
+              (*) oraz atrybuty nie wystąpujące ani z lewej ani z prawej strony
               tej zależności.
         \item Strategie stosujemy do relacji powstałych w wyniku dekompozycji
               do chwili, gdy wszystkie relacje są w BCNF.
     \end{itemize}
 
     % section relacyjny_model_danych_normalizacja_relacji (end)
+
+\pagebreak
 
     \section{Model ER} % (fold)
     \label{sec:model_er}
@@ -284,7 +355,7 @@
     \begin{center}
     \begin{tabular}{|l|}
       \hline
-      \texttt{PracownicyProjekty} \\
+      \texttt{Pracownicy\_Projekty} \\
       \hline
       \texttt{\#~IdPracownika REFERENCES Pracownicy(IdPracownika)} \\
       \texttt{\#~NrProjektu REFERENCES Projekty(NrProjektu)} \\
@@ -294,8 +365,8 @@
     \end{center}
 
     \horrule{0.5pt}
-    Proszę \underline{omówić} trzy schematy transformacji hierarchii encji do
-    modelu relacyjnego.\\
+    Proszę \underline{omówić} trzy schematy \textbf{transformacji hierarchii}
+    encji do modelu relacyjnego.\\
     \horrule{0.5pt}
 
     \begin{enumerate}
@@ -444,6 +515,8 @@
 
     % subsection właściwiości (end)
 
+\pagebreak
+
     \subsection{Harmonogramy, szeregowalność konfliktowa i perspektywiczna}
     \label{sub:harmonogramy_szeregowalnosc_konfliktowa_i_perspektywiczna}
 
@@ -469,6 +542,13 @@
         \item Harmonogramy są \textbf{równoważne konfliktowo}
               \textit{(conflict equivalent)} jeżeli kolejność wszystkich
               operacji konfliktowych jest w nich taka sama.
+        \item Dwie operacje są w stanie \textbf{konfliktu}, jeśli:
+        \begin{itemize}
+            \item Należą do różnych transakcji.
+            \item Uzyskują dostep do tego samego elementu.
+            \item Przynajmnej jedna z nich jest operacją zapisu.
+        \end{itemize}
+
         \item Harmonogram \textbf{S} jest \underline{szeregowalny konfliktowo},
         jeżeli jest on \underline{równoważny} \underline{konfliktowo} z pewnym
         szeregowym harmonogramem \textbf{S'}.
@@ -488,13 +568,13 @@
                   każdego elementu danych \textbf{Q}:
             \begin{enumerate}
                 \item $T_k$ jest transakcją, która czyta \textbf{Q} jako
-                      pierwsza $=>$ $T_k$ musi być transakcją, która czyta
-                      \textbf{Q} jako pierwsza.
-                \item $T_i$ czyta \textbf{Q} zapisany przez $T_j => T_i$ czyta
-                      \textbf{Q} zapisany przez $T_j$
+                      pierwsza \texttt{==>} $T_k$ musi być transakcją, która
+                      czyta \textbf{Q} jako pierwsza.
+                \item $T_i$ czyta \textbf{Q} zapisany przez $T_j$ \texttt{==>}
+                      $T_i$ czyta \textbf{Q} zapisany przez $T_j$.
                 \item $T_m$ jest ostatnią transakcją, która zapisuje \textbf{Q}
-                      $=> T_m$ jest ostatnią transakcją, która zapisuje
-                      \textbf{Q}
+                      \texttt{==>} $T_m$ jest ostatnią transakcją, która
+                      zapisuje \textbf{Q}.
             \end{enumerate}
         \end{itemize}
         \item Oznacza to samo co \textbf{szeregowalność konfliktowa, jeśli}
@@ -519,18 +599,89 @@
         \item Zapewnia \textbf{spójność} bazy danych.
     \end{itemize}
 
-    \horrule{0.5pt}
-    Proszę podać przykłady harmonogramów szeregowalnych nie szeregowych.\\
-    \horrule{0.5pt}
+\pagebreak
 
     \horrule{0.5pt}
-    Proszę podać przykłady harmonogramów szeregowalnych konfliktowo i takich,
-    które nie są szeregowalne konfliktowo.\\
+    Proszę \underline{podać przykłady} harmonogramów \textbf{szeregowalnych}
+    \underline{nie szeregowych}.\\
     \horrule{0.5pt}
+
+    \begin{center}
+    \begin{tabular}{|p{4cm}|p{4cm}|}
+        \hline
+        \textbf{T1} & \textbf{T2} \\
+        \hline
+        \texttt{read(A)} & \texttt{}\\
+        \texttt{A := A - 50} & \texttt{}\\
+        \texttt{write(A)} & \texttt{}\\
+        \texttt{} & \texttt{read(A)}\\
+        \texttt{} & \texttt{temp := A * 0.1}\\
+        \texttt{} & \texttt{A := A - temp}\\
+        \texttt{} & \texttt{write(A)}\\
+        \texttt{read(B)} & \texttt{}\\
+        \texttt{B := B + 50} & \texttt{}\\
+        \texttt{write(B)} & \texttt{}\\
+        \texttt{} & \texttt{read(B)}\\
+        \texttt{} & \texttt{B := B + temp}\\
+        \texttt{} & \texttt{write(B)}\\
+        \hline
+    \end{tabular}
+    \end{center}
+
+\pagebreak
+
+    \horrule{0.5pt}
+    Proszę \underline{podać przykłady} harmonogramów
+    \textbf{szeregowalnych konfliktowo} i takich, które \textbf{nie są}
+    szeregowalne konfliktowo.\\
+    \horrule{0.5pt}
+
+    \textbf{HARMONOGRAMY SZERGOWALNE KONFLIKTOWO}
+
+    \begin{center}
+    \begin{tabular}{|p{4cm}|p{4cm}|}
+        \hline
+        \textbf{T1} & \textbf{T2} \\
+        \hline
+        \texttt{read(A)} & \texttt{}\\
+        \texttt{write(A)} & \texttt{}\\
+        \texttt{} & \texttt{read(A)}\\
+        \texttt{} & \texttt{write(A)}\\
+        \texttt{read(B)} & \texttt{}\\
+        \texttt{write(B)} & \texttt{}\\
+        \texttt{} & \texttt{read(B)}\\
+        \texttt{} & \texttt{write(B)}\\
+        \hline
+    \end{tabular}
+    \end{center}
+
+    \textbf{HARMONOGRAMY \underline{NIE}SZERGOWALNE KONFLIKTOWO}
+
+    \begin{center}
+    \begin{tabular}{|p{4cm}|p{4cm}|}
+        \hline
+        \textbf{T1} & \textbf{T2} \\
+        \hline
+        \texttt{read(A)} & \texttt{}\\
+        \texttt{A := A - 50} & \texttt{}\\
+        \texttt{write(A)} & \texttt{}\\
+        \texttt{} & \texttt{read(B)}\\
+        \texttt{} & \texttt{B := 5 - 10}\\
+        \texttt{} & \texttt{write(B)}\\
+        \texttt{read(B)} & \texttt{}\\
+        \texttt{B := 5 + 50} & \texttt{}\\
+        \texttt{write(B)} & \texttt{}\\
+        \texttt{} & \texttt{read(A)}\\
+        \texttt{} & \texttt{A := A + 10}\\
+        \texttt{} & \texttt{write(A)}\\
+        \hline
+    \end{tabular}
+    \end{center}
+
+\pagebreak
 
     % subsection harmonogramy_szeregowalność_konfliktowa_i_perspektywiczna (end)
 
-\pagebreak
     \subsection{Poziomy izolacji transakcji} % (fold)
     \label{sub:poziomy_izolacji_transakcji}
 
@@ -650,6 +801,7 @@
     \end{itemize}
 
     % subsection poziomy_izolacji_transakcji (end)
+\pagebreak
 
     \subsection{Sterowanie współbieżnymi transakcjami w oparciu o blokady}
     \label{sub:sterowanie_wspolbieznymi_blokady}
@@ -665,6 +817,8 @@
     współbieżnością w wybranym przez egzaminatora poziomie izolacji
     transakcji.\\
     \horrule{0.5pt}
+
+\pagebreak
 
     \horrule{0.5pt}
     Proszę omówić wybrane przez egzaminatora problemy związane ze współbieżnym
@@ -770,13 +924,38 @@
 
     % subsection sterowanie_współbieżnymi_transakcjami (end)
 
+\pagebreak
+
     \subsection{Zakleszczenia} % (fold)
     \label{sub:zakleszczenia}
 
     \horrule{0.5pt}
-    Proszę napisać przykładowy harmonogram, który doprowadzi do zakleszczenia.
+    Proszę \textbf{napisać przykładowy harmonogram}, który doprowadzi do
+    \textbf{zakleszczenia}.
     Jak mogą być wykrywane zakleszczenia?\\
     \horrule{0.5pt}
+
+    \begin{center}
+    \begin{tabular}{|p{5cm}|p{5cm}|}
+        \hline
+        \textbf{T1} & \textbf{T2} \\
+        \hline
+        \texttt{read(K)} \textit{(zakłada blokade S na K)} & \texttt{}\\
+        \texttt{K = 2 000,00} & \texttt{}\\
+        \texttt{} & \texttt{read(K)} \textit{(zakłada blokade S na K)}\\
+        \texttt{} & \texttt{K = 2 000,00}\\
+        \texttt{wybierz 300,00zł} & \texttt{}\\
+        \texttt{K := K - 300} \textit{(= 1 700)}& \texttt{}\\
+        \texttt{write(K)} & \texttt{}\\
+        \texttt{wait} & \texttt{wybierz 100,00 zł}\\
+        \texttt{wait} & \texttt{K := K - 100} \textit{(= 1 900)}\\
+        \texttt{wait} & \texttt{write(K)} \textit{(żąda blokady X na K)}\\
+        \texttt{wait} & \texttt{wait}\\
+        \texttt{wait} & \texttt{wait}\\
+        \hline
+    \end{tabular}
+    \end{center}
+
 
     \textbf{WYKRYWANIE ZAKLESZCZEŃ}
     \begin{itemize}
@@ -803,6 +982,8 @@
         \end{itemize}
     \end{itemize}
     % subsection zakleszczenia (end)
+
+\pagebreak
 
     \subsection{Kursory, sterowanie współbieżnością w kursorach} % (fold)
     \label{sub:kursory_sterowanie_wspolbieznoscia_w_kursorach}
@@ -857,6 +1038,7 @@ ALTER DATABASE SET CURSOR_CLOSE_ON_COMMIT
                   zgłaszany jest błąd.
         \end{itemize}
 
+        \pagebreak
         \item \texttt{OPTIMISTIC (WITH ROW VERSIONING)}
         \begin{itemize}
             \item Podobnie, ale w tabelu musi być kolumna typu
@@ -871,6 +1053,8 @@ ALTER DATABASE SET CURSOR_CLOSE_ON_COMMIT
     % subsection kursory_sterowanie_współbieżnością_w_kursorach (end)
 
     % section transakcje (end)
+
+\pagebreak
 
     \section{Język SQL} % (fold)
     \label{sec:jezyk_sql}
@@ -906,6 +1090,8 @@ ALTER DATABASE SET CURSOR_CLOSE_ON_COMMIT
 
     % section procedury_funkcje_i_wyzwalacze (end)
 
+\pagebreak
+
     \section{Indeksy, typy indeksów, statystyki, wykorzystanie przez
              optymalizatory kwerend} % (fold)
     \label{sec:indeksy}
@@ -915,6 +1101,8 @@ ALTER DATABASE SET CURSOR_CLOSE_ON_COMMIT
     podać wersje tego indeksu (w systemie Microsoft SQL Server: clustered i
     non-clustered, w Oracle IOT).\\
     \horrule{0.5pt}
+
+\pagebreak
 
     % section indeksy (end)
 
@@ -1018,6 +1206,8 @@ ALTER DATABASE SET CURSOR_CLOSE_ON_COMMIT
 
     \end{itemize}
 
+    \pagebreak
+
     \textbf{RAID 1}
     \begin{itemize}
         \item \textit{Mirroring} lub \textit{duplexing} (gdy każdy dysk ma
@@ -1090,6 +1280,8 @@ ALTER DATABASE SET CURSOR_CLOSE_ON_COMMIT
         \end{itemize}
 
     \end{itemize}
+
+\pagebreak
 
     \textbf{RAID 5}
     \begin{itemize}
@@ -1307,6 +1499,8 @@ ALTER DATABASE SET CURSOR_CLOSE_ON_COMMIT
 
     % section budowa_fizyczna_baz_danych_macierze_raid (end)
 
+\pagebreak
+
     \section{Charakterystyka baz danych NoSQL} % (fold)
     \label{sec:charakterystyka_baz_danych_nosql}
 
@@ -1315,6 +1509,8 @@ ALTER DATABASE SET CURSOR_CLOSE_ON_COMMIT
     w systemach baz danych i jak realizowane jest skalowanie poziome w bazach
     danych NoSQL.\\
     \horrule{0.5pt}
+
+    \vskip 0.5cm
 
     \textbf{SKALOWANIE POZIOME}
     \begin{itemize}
@@ -1339,6 +1535,8 @@ ALTER DATABASE SET CURSOR_CLOSE_ON_COMMIT
     systemach relacyjnych?\\
     \horrule{0.5pt}
 
+    \vskip 0.5cm
+
     \textbf{GŁÓWNE TYPY}
     \begin{itemize}
         \item Klucz-Wartość
@@ -1346,6 +1544,8 @@ ALTER DATABASE SET CURSOR_CLOSE_ON_COMMIT
         \item Dokumentowe
         \item Grafowe
     \end{itemize}
+
+\pagebreak
 
     \textbf{PRZYKŁAD JSON}
     \begin{minted}[mathescape,
@@ -1388,5 +1588,8 @@ ALTER DATABASE SET CURSOR_CLOSE_ON_COMMIT
     \end{itemize}
 
     % section charakterystyka_baz_danych_nosql (end)
+
+    \newpage
+    ~
 
 \end{document}
