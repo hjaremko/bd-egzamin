@@ -10,8 +10,16 @@
 \usepackage[table]{xcolor}
 \usepackage{tikz-qtree}
 \usepackage{minted}
-
+\usepackage{tcolorbox}
 \usepackage{array,ragged2e,pst-node,pst-dbicons}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes.multipart}
+\usetikzlibrary{matrix}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shadows}
+\usetikzlibrary{calc}
+
 \newcolumntype{C}[1]{>{\Centering}p{#1}}
 \def\Tab#1{\tabular{C{3cm}}\rule[-5mm]{0pt}{1cm}#1\\\hline
                            ~\\\hline~\endtabular}
@@ -34,8 +42,81 @@ BoldItalicFont=Lato-RegIta,BoldFont=Lato-Reg,ItalicFont=Lato-LigIta]{Lato-Lig}
 \newcommand{\horrule}[1]{\rule{\linewidth}{#1}}
 \newcommand\tab[1][1cm]{\hspace*{#1}}
 
-\title{Bazy Danych}
-\author{Pytania egzaminacyjne}
+\makeatletter
+\pgfarrowsdeclare{crow's foot}{crow's foot}
+{
+  \pgfarrowsleftextend{+-.5\pgflinewidth}%
+  \pgfarrowsrightextend{+.5\pgflinewidth}%
+}
+{
+  \pgfutil@tempdima=0.5pt%
+  \advance\pgfutil@tempdima by.25\pgflinewidth%
+  \pgfsetdash{}{+0pt}%
+  \pgfsetmiterjoin%
+  \pgfpathmoveto{\pgfqpoint{0pt}{-6\pgfutil@tempdima}}%
+  \pgfpathlineto{\pgfqpoint{-6\pgfutil@tempdima}{0pt}}%
+  \pgfpathlineto{\pgfqpoint{0pt}{6\pgfutil@tempdima}}%
+  \pgfusepathqstroke%
+}
+
+
+\tikzset{
+    entity/.code={
+        \tikzset{
+            label=above:#1,
+            name=#1,
+            inner sep=0pt,
+            every entity/.try,
+            fill=white,
+            general shadow={
+                shadow xshift=0.0625in,
+                shadow yshift=-0.0625in,
+                opacity=0.5,
+                fill=black!50
+            }
+        }%
+        \def\entityname{#1}%
+    },
+    entity anchor/.style={matrix anchor=#1.center},
+    every entity/.style={
+            draw,
+    },
+    every property/.style={
+        inner xsep=0.25cm, inner ysep=0.125cm, anchor=west, text width=1in
+    },
+    zig zag to/.style={
+        to path={(\tikztostart) -| ($(\tikztostart)!#1!(\tikztotarget)$) |- (\tikztotarget)}
+    },
+    zig zag to/.default=0.5,
+    one to many/.style={
+        -crow's foot, zig zag to
+    },
+    many to one/.style={
+        crow's foot-, zig zag to
+    },
+    many to many/.style={
+        crow's foot-crow's foot, zig zag to
+    }
+}
+\def\property#1{\node[name=\entityname-#1, every property/.try]{#1};}
+\def\properties{\begingroup\catcode`\_=11\relax\processproperties}
+\def\processproperties#1{\endgroup%
+    \def\propertycode{}%
+    \foreach \p in {#1}{%
+        \expandafter\expandafter\expandafter\gdef\expandafter\expandafter\expandafter\propertycode%
+            \expandafter\expandafter\expandafter{\expandafter\propertycode\expandafter\property\expandafter{\p}\\}%
+    }%
+    \propertycode%
+}
+
+
+% \title{Bazy Danych}
+% \author{Pytania egzaminacyjne}
+
+\title{%
+  Bazy Danych \\
+  \large Pytania egzaminacyjne}
+\author{Hubert Jaremko}
 \date{2018/2019}
 \frenchspacing
 
@@ -59,39 +140,88 @@ BoldItalicFont=Lato-RegIta,BoldFont=Lato-Reg,ItalicFont=Lato-LigIta]{Lato-Lig}
     \horrule{0.5pt}\\
 
     Relacja \texttt{\{Miasto, Ulica, Kod\}}\\
-    Klucze: \texttt{\{Miasto, Ulica\}} oraz \texttt{\{Ulica, Kod\}}\\
-    Zależności funkcyjne: \texttt{ \{Miasto, Ulica\} --> \{Kod\}} oraz\\
-                          \texttt{ \{Kod\} --> \{Miasto\}}\\
+    Klucze:
+    \begin{enumerate}
+        \item \texttt{\{Miasto, Ulica\}}
+        \item \texttt{\{Ulica, Kod\}}
+    \end{enumerate}
 
-    \textbf{1PN}
-    \begin{itemize}
-        \item Wszystkie atrybuty są atomowe.
-    \end{itemize}
+    Dodatkowe zależności:
+    \begin{enumerate}
+        \item \texttt{ \{Kod\} --> \{Miasto\}}\\
+    \end{enumerate}
 
-    \textbf{2PN}
-    \begin{itemize}
-        \item Jest w 1NF.
-        \item Żaden niekluczowy atrybut nie jest
-              cześciowo funkcyjnie zależny od jakiekolwiek klucza potencjalnego.
-    \end{itemize}
+    \begin{tcolorbox}
+    \textbf{Tylko 3NF} - \texttt{Kod} nie jest nadkluczem.
+    \end{tcolorbox}
 
-    \textbf{3PN}
-    \begin{itemize}
-        \item Jest w 2NF.
-        \item Żaden niekluczowy atrybut nie jest zależny
-              funkcyjnie od innych niekluczowych atrybutów.
-    \end{itemize}
 
-    Relacja ta \textbf{nie jest w BCNF} ponieważ w zależności funkcyjnej\\
-    \texttt{\{Kod\} $\rightarrow$ \{Miasto\}}, \texttt{ Kod } nie jest
-    \textbf{nadkluczem}.
-
-\pagebreak
+% \pagebreak
 
     \horrule{0.5pt}
     Dla tabeli (relacji) z podanymi zależnościami funkcyjnymi \underline{proszę
      powiedzieć} w której \textbf{postaci normalnej} jest ta tabela.\\
-    \horrule{0.5pt}
+    \horrule{0.5pt}\\
+
+    Relacja \texttt{\{CustomerID, Firstname, Surname, Telephone\}}\\
+    Klucze: \texttt{\{CustomerID, Telephone\}}\\
+    Dodatkowe zależności:
+    \begin{enumerate}
+        \item \texttt{ \{CustomerID\} --> \{Firstname, Surname\}}
+        \item \texttt{ \{Telephone\} --> \{CustomerID\}}
+    \end{enumerate}
+
+    \begin{tcolorbox}
+    \textbf{Tylko 1NF} - Częściowa funkcyjna zależność atrybutu wtórnego od
+    podzbioru właściwego klucza w zależności nr 2.
+    \end{tcolorbox}
+
+\pagebreak
+
+    Relacja \texttt{\{Tournament, Year, Winner, Winner Date of Birth\}}\\
+    Klucze: \texttt{\{Tournament, Year\}}\\
+    Dodatkowe zależności:
+    \begin{enumerate}
+        \item \texttt{ \{Winner\} --> \{Winner Date of Birth\}}
+    \end{enumerate}
+
+    \begin{tcolorbox}
+    \textbf{Tylko 2NF} - Atrybut niekluczowy funkcyjnie zależny od innego
+    atrybutu niekluczowego.
+    \end{tcolorbox}
+
+    \vskip 0.5cm
+    Relacja \texttt{\{PESEL, NrPłyty, Od, Do, NrDowodu\}}\\
+    Klucze:
+    \begin{enumerate}
+        \item \texttt{\{PESEL, NrPłyty, Od\}}
+        \item \texttt{\{NrDowodu, NrPłyty, Od\}}
+    \end{enumerate}
+
+    Dodatkowe zależności:
+    \begin{enumerate}
+        \item \texttt{ \{NrDowodu\} --> \{PESEL\}}
+    \end{enumerate}
+
+    \begin{tcolorbox}
+    \textbf{Tylko 3NF} - Lewa strona zależności nr 1 nie jest nadkluczem.
+    \end{tcolorbox}
+
+    \vskip 0.5cm
+    Relacja \texttt{\{Restaurant, Pizza Type, Delivery Area\}}\\
+    Klucze: \texttt{\{Restaurant, Pizza Type, Delivery Area\}}
+
+    Dodatkowe zależności:
+    \begin{enumerate}
+        \item \texttt{ \{Restaurant\} ->> \{Pizza Type\}}
+        \item \texttt{ \{Restaurant\} ->> \{Delivery Area\}}
+    \end{enumerate}
+
+    \begin{tcolorbox}
+    \textbf{Tylko BCNF} - Jeśli założymy, że wszystkie typy pic są dowożone na
+    każdy obszar to występują nietrywialne zależności wielowartościowe, których
+    lewa strona nie zawiera klucza.
+    \end{tcolorbox}
 
 \pagebreak
 
@@ -99,6 +229,8 @@ BoldItalicFont=Lato-RegIta,BoldFont=Lato-Reg,ItalicFont=Lato-LigIta]{Lato-Lig}
     Podaną tabelę należy doprowadzić do
     \textbf{postaci normalnej Boyce’a Codd’a}.\\
     \horrule{0.5pt}
+
+    \vskip 0.5cm
 
     \textbf{PRZYKŁAD 1.}
 
@@ -153,8 +285,47 @@ BoldItalicFont=Lato-RegIta,BoldFont=Lato-Reg,ItalicFont=Lato-LigIta]{Lato-Lig}
     \textbf{Zależność funkcyjna:} \texttt{\{NazwaStudia\} --> \{AdresStudia\}}\\
 
     \textbf{Dekomponujemy schemat na dwa zbiory:}\\
-    \texttt{\{NazwaStudia, AdresStudia\}}\\
-    \texttt{\{NazwaStudia, Tytuł, Rok, Długość, TypFilmu\}}\\
+    \texttt{\{\underline{NazwaStudia}, AdresStudia\}}\\
+    \texttt{\{NazwaStudia, \underline{Tytuł, Rok}, Długość, TypFilmu\}}\\
+
+    \vskip 0.5cm
+
+    \textbf{PRZYKŁAD 2.}
+
+    \vskip 0.5cm
+
+% \begin{adjustbox}{width=\columnwidth,center}
+    \begin{center}
+    \begin{tabular}{|l|l|l|}
+        \hline
+        \textbf{Person} &
+        \textbf{Shop Type} &
+        \textbf{Nearest Shop}\\
+        \hline
+        Davidson & Optician & Eagle Eye \\
+        \hline
+        Davidson & Hairdresser & Snippets \\
+        \hline
+        Wright & Bookshop & Merlin Books \\
+        \hline
+        Fuller & Bakery & Doughy's \\
+        \hline
+        Fuller & Hairdresser & Sweeney Todd's \\
+        \hline
+        Fuller & Optician & Eagle Eye \\
+        \hline
+        \end{tabular}
+    \end{center}
+% \end{adjustbox}
+
+    \vskip 0.5cm
+
+    \textbf{Klucze:} \texttt{\{Person, Shop Type\}; \{Person, Nearest Shop\}}\\
+    \textbf{Zależność funkcyjna:} \texttt{\{Nearest Shop\} --> \{Shop Type\}}\\
+
+    \textbf{Dekomponujemy schemat na dwa zbiory:}\\
+    \texttt{\{\underline{Nearest Shop}, Shop Type\}}\\
+    \texttt{\{\underline{Nearest Shop, Person}\}}\\
 
 \pagebreak
 
@@ -245,12 +416,80 @@ BoldItalicFont=Lato-RegIta,BoldFont=Lato-Reg,ItalicFont=Lato-LigIta]{Lato-Lig}
     \textbf{Boyce’a Codd’a}, a w której jest \textbf{redundancja}.\\
     \horrule{0.5pt}
 
-\pagebreak
+    \vskip 0.5cm
+
+% \begin{adjustbox}{width=\columnwidth,center}
+    \begin{center}
+    \begin{tabular}{|l|l|l|}
+        \hline
+        \textbf{Nr Pracownika} &
+        \textbf{Język Programowania} &
+        \textbf{Język Obcy}\\
+        \hline
+        1 & C & niemiecki \\
+        \hline
+        1 & Java & angielski \\
+        \hline
+        2 & C & francuski \\
+        \hline
+        2 & Java & niemiecki \\
+        \hline
+        2 &  & hiszpański \\
+        \hline
+        \end{tabular}
+    \end{center}
+% \end{adjustbox}
+
+    \vskip 0.5cm
+
+    \textbf{Klucz:}\texttt{\{Nr Pracownika, Język Programowania, Język Obcy\}}\\
+    \textbf{Zależności:}
+    \begin{enumerate}
+        \item \texttt{\{Nr Pracownika\} ->> \{Język Programowania\}}
+        \item \texttt{\{Nr Pracownika\} ->> \{Język Obcy\}}
+    \end{enumerate}
+
+    \begin{tcolorbox}
+    \textbf{Tylko BCNF} - Występują zależności wielowartościowe, których lewa
+    strona nie zawiera klucza.
+    \end{tcolorbox}
+
+% \pagebreak
 
     \horrule{0.5pt}
     Proszę \underline{podać przykład} tabeli, która jest w \textbf{5NF},
     ale jest w niej \textbf{redundancja}.\\
     \horrule{0.5pt}
+
+    \vskip 0.5cm
+
+% \begin{adjustbox}{width=\columnwidth,center}
+    \begin{center}
+    \begin{tabular}{|l|l|l|}
+        \hline
+        \textbf{Producent} &
+        \textbf{Wyrób} &
+        \textbf{Część}\\
+        \hline
+        1 & 1 & 1 \\
+        \hline
+        1 & 2 & 1 \\
+        \hline
+        \end{tabular}
+    \end{center}
+% \end{adjustbox}
+
+    \vskip 0.5cm
+
+    \textbf{Klucz:} \texttt{\{Producent, Wyrób, Część\}}\\
+
+    \begin{tcolorbox}
+    \textbf{5CNF} - Zakładamy, że \texttt{Producent} może produkować daną część
+    tylko do jednego wyrobu, nawet jeśli mogłaby być użyta w innym. Zatem
+    \textbf{brak zależności wielowartościowych oraz klucz obejmuje wszystkie
+    atrybuty} a wciąż jest redundancja (powtarzamy, że \texttt{Producent} 1
+    produkuje \texttt{Część} 1).
+    \end{tcolorbox}
 
 \pagebreak
 
@@ -293,32 +532,57 @@ BoldItalicFont=Lato-RegIta,BoldFont=Lato-Reg,ItalicFont=Lato-LigIta]{Lato-Lig}
 
     % \includegraphics[scale=0.521]{erd}
 
-    \begin{center}
-    \entity{pracownik}[
-        \begin{tabular}{l}
-          Pracownik \\
-          \hline
-          \#~IdPracownika \\
-          \textasteriskcentered~Nazwisko \\
-          \textasteriskcentered~Etat \\
-          \textasteriskcentered~Pensja \\
-        \end{tabular}
-    ]\hspace{2.5cm}
-    \entity{projekt}[
-        \begin{tabular}{l}
-          Projekt \\
-          \hline
-          \#~NrProjektu \\
-          \textasteriskcentered~Nazwa \\
-          \textasteriskcentered~Sponsor \\
-        \end{tabular}
-    ]
-    \ncline[arrowscale=2]{>-<}{pracownik}{projekt}
-    \naput[npos=0.1]{M}\naput[npos=0.85]{N}
-    \end{center}
+\begin{center}
+\begin{tikzpicture}[node distance=1.25in]
+
+\matrix [entity=Pracownik] {
+    \properties{
+        +IdPracownika,
+        *Nazwisko,
+        *Etat,
+        *Pensja
+    }
+};
+
+\matrix [entity=Projekt, right=of Pracownik-+IdPracownika, entity anchor=Projekt-+NrProjektu]  {
+    \properties{
+        +NrProjektu,
+        *Nazwa,
+        *Sponsor
+    }
+};
+
+\draw [many to many] (Pracownik-+IdPracownika)   to (Projekt-+NrProjektu);
+\end{tikzpicture}
+\end{center}
+
+% \vskip 0.1cm
+
+    % \begin{center}
+    % \entity{pracownik}[
+    %     \begin{tabular}{l}
+    %       Pracownik \\
+    %       \hline
+    %       \#~IdPracownika \\
+    %       \textasteriskcentered~Nazwisko \\
+    %       \textasteriskcentered~Etat \\
+    %       \textasteriskcentered~Pensja \\
+    %     \end{tabular}
+    % ]\hspace{2.5cm}
+    % \entity{projekt}[
+    %     \begin{tabular}{l}
+    %       Projekt \\
+    %       \hline
+    %       \#~NrProjektu \\
+    %       \textasteriskcentered~Nazwa \\
+    %       \textasteriskcentered~Sponsor \\
+    %     \end{tabular}
+    % ]
+    % \ncline[arrowscale=2]{>-<}{pracownik}{projekt}
+    % \naput[npos=0.1]{M}\naput[npos=0.85]{N}
+    % \end{center}
 
     Po transformacji diagramu zostaną utworzone trzy tabele.
-
     \begin{center}
     \begin{tabular}{cc}
         \begin{minipage}{.5\linewidth}
@@ -569,7 +833,9 @@ BoldItalicFont=Lato-RegIta,BoldFont=Lato-Reg,ItalicFont=Lato-LigIta]{Lato-Lig}
         harmonogram szeregowy \textbf{S'}.
     \end{itemize}
 
-    \textbf{HARMONOGRAM SZEREGOWALNY PERSPEKTYWICZNIE}
+\pagebreak
+
+    \textbf{HARMONOGRAM SZEREGOWALNY PERSPEKTYWICZNIE}\\
     \textit{(view serializability)}
     \begin{itemize}
         \item Jest on \textbf{równoważny perspektywicznie} pewnemu
@@ -942,11 +1208,11 @@ BoldItalicFont=Lato-RegIta,BoldFont=Lato-Reg,ItalicFont=Lato-LigIta]{Lato-Lig}
         \item (\texttt{COMMIT\_1} lub \texttt{ABORT\_1})
     \end{itemize}
 
+
+    \textbf{A5B Write Skew} \textit{(skrzywiony zapis)}\\\\
     Załóżmy, że na elementy danych \texttt{x} oraz \texttt{y} narzucono pewne
     ograniczenie \texttt{C()}. Każda transakcja z osobna dba o spełnienie
-    \texttt{C()}.\\
-
-    \textbf{A5B Write Skew} \textit{(skrzywiony zapis)}
+    \texttt{C()}.
     \begin{itemize}
         \item Transakcja $T_1$ odczytuje \texttt{x} (ew. też \texttt{y}).
         \item Transakcja $T_2$ odczytuje \texttt{y} (ew. też \texttt{x}).
@@ -1114,6 +1380,14 @@ ALTER DATABASE SET CURSOR_CLOSE_ON_COMMIT
     egzaminatora.\\
     \horrule{0.5pt}
 
+\begin{minted}{sql}
+5. SELECT
+1. FROM
+2. WHERE
+3. GROUP BY
+4. HAVING
+6. ORDER BY
+\end{minted}
 
     % section język_sql (end)
 
@@ -1121,24 +1395,71 @@ ALTER DATABASE SET CURSOR_CLOSE_ON_COMMIT
     \label{sec:procedury_funkcje_i_wyzwalacze}
 
     \horrule{0.5pt}
-    Proszę napisać procedurę w języku Transact SQL, funkcjonalność procedury
-    poda egzaminator.\\
+    Proszę \underline{napisać} \textbf{procedurę} w języku Transact SQL,
+    funkcjonalność procedury poda egzaminator.\\
     \horrule{0.5pt}
 
-    \horrule{0.5pt}
-    Proszę napisać funkcję skalarną w języku Transact SQL, opisaną przez
-    egzaminatora.\\
-    \horrule{0.5pt}
+\begin{minted}{sql}
+CREATE PROCEDURE ProcName (@Arg TYPE, @OutArg TYPE OUTPUT)
+AS
+BEGIN
+    ...
+END
+\end{minted}
 
     \horrule{0.5pt}
-    Proszę napisać w języku Transact SQL opisaną przez egzaminatora funkcję
-    zwracającą zestaw rekordów.\\
+    Proszę \underline{napisać} \textbf{funkcję skalarną} w języku Transact SQL,
+    opisaną przez egzaminatora.\\
     \horrule{0.5pt}
 
+\begin{minted}{sql}
+CREATE FUNCTION FuncName (@Arg TYPE, @OutArg TYPE OUTPUT)
+RETURNS TYPE
+AS
+BEGIN
+    ...
+END
+\end{minted}
+
     \horrule{0.5pt}
-    Proszę napisać w języku Transact SQL wyzwalacz, który zrealizuje zadaną
-    przez egzaminatora funkcjonalność.\\
+    Proszę \underline{napisać} w języku Transact SQL opisaną przez egzaminatora
+    \textbf{funkcję} zwracającą zestaw rekordów.\\
     \horrule{0.5pt}
+
+\begin{minted}{sql}
+CREATE FUNCTION ProcName (@Arg TYPE, @OutArg TYPE OUTPUT)
+RETURNS @TableName TABLE (
+    ColumnName1 TYPE,
+    ColumnName2 TYPE
+)
+AS
+BEGIN
+    ...
+END
+---------------------------------------------------------
+CREATE FUNCTION ProcName (@Arg TYPE, @OutArg TYPE OUTPUT)
+RETURNS TABLE
+AS
+BEGIN
+    RETURN (SELECT ...)
+END
+\end{minted}
+
+    \horrule{0.5pt}
+    Proszę \underline{napisać} w języku Transact SQL \textbf{wyzwalacz}, który
+    zrealizuje zadaną przez egzaminatora funkcjonalność.\\
+    \horrule{0.5pt}
+
+\begin{minted}{sql}
+CREATE TRIGGER TriggerName
+ON TableName
+AFTER INSERT, UPDATE, DELETE
+--INSTEAD OF
+AS
+BEGIN
+    ...
+END
+\end{minted}
 
     % section procedury_funkcje_i_wyzwalacze (end)
 
@@ -1580,6 +1901,12 @@ ALTER DATABASE SET CURSOR_CLOSE_ON_COMMIT
         systemie, na przykład dodawanie RAM komputerowi w systemie.
     \end{itemize}
 
+    \textbf{REALIZACJA SKALOWANIA POZIOMEGO}
+    \begin{itemize}
+        \item Rezygnacja z części funkcjonalności relacyjnych baz danych,
+              brak relacji, transakcji, nie są zachowane własności ACID.
+    \end{itemize}
+
     \horrule{0.5pt}
     Proszę \underline{podać główne typy} baz danych \textbf{NoSQL}.\\
     Proszę \underline{podać przykłady dokumentów} w formacie \textbf{JSON}.\\
@@ -1631,7 +1958,8 @@ ALTER DATABASE SET CURSOR_CLOSE_ON_COMMIT
 
     \textbf{PRZECHOWYWANIE DOKUMENTÓW}
     \begin{itemize}
-        \item :/
+        \item Dokumenty rozrzucone po węzłach, każdy z węzłów czyta i zapisuje
+              równolegle.
     \end{itemize}
 
     \textbf{ŁĄCZENIE DOKUMENTÓW}
@@ -1642,6 +1970,8 @@ ALTER DATABASE SET CURSOR_CLOSE_ON_COMMIT
     \textbf{UNIKANIE REDUNDANCJI}
     \begin{itemize}
         \item Nie należy unikać redundancji.
+        \item Liczy się szybkość dostępu do danych, często przez wielu
+              użytkowników na raz.
     \end{itemize}
 
     % section charakterystyka_baz_danych_nosql (end)
