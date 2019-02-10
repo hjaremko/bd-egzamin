@@ -59,9 +59,9 @@ BoldItalicFont=Lato-RegIta,BoldFont=Lato-Reg,ItalicFont=Lato-LigIta]{Lato-Lig}
     \horrule{0.5pt}\\
 
     Relacja \texttt{\{Miasto, Ulica, Kod\}}\\
-    Klucze: \texttt{(Miasto, Ulica)} oraz \texttt{(Ulica, Kod)}\\
-    Zależności funkcyjne: \texttt{ (Miasto, Ulica) --> Kod} oraz
-                          \texttt{Kod --> Miasto}\\
+    Klucze: \texttt{\{Miasto, Ulica\}} oraz \texttt{\{Ulica, Kod\}}\\
+    Zależności funkcyjne: \texttt{ \{Miasto, Ulica\} --> \{Kod\}} oraz\\
+                          \texttt{ \{Kod\} --> \{Miasto\}}\\
 
     \textbf{1PN}
     \begin{itemize}
@@ -70,27 +70,27 @@ BoldItalicFont=Lato-RegIta,BoldFont=Lato-Reg,ItalicFont=Lato-LigIta]{Lato-Lig}
 
     \textbf{2PN}
     \begin{itemize}
-        \item Jest w 1PN.
+        \item Jest w 1NF.
         \item Żaden niekluczowy atrybut nie jest
               cześciowo funkcyjnie zależny od jakiekolwiek klucza potencjalnego.
     \end{itemize}
 
     \textbf{3PN}
     \begin{itemize}
-        \item Jest w 2PN.
+        \item Jest w 2NF.
         \item Żaden niekluczowy atrybut nie jest zależny
               funkcyjnie od innych niekluczowych atrybutów.
     \end{itemize}
 
-    Relacja ta \textbf{nie jest w PNBC} ponieważ w zależności funkcyjnej
-    \texttt{Kod $\rightarrow$ Miasto}, \texttt{ Miasto} zawiera sie w kluczu
-    \texttt{(Miasto, Ulica)}.\\
+    Relacja ta \textbf{nie jest w BCNF} ponieważ w zależności funkcyjnej\\
+    \texttt{\{Kod\} $\rightarrow$ \{Miasto\}}, \texttt{ Kod } nie jest
+    \textbf{nadkluczem}.
 
 \pagebreak
 
     \horrule{0.5pt}
-    Dla tabeli (relacji) z podanymi zależnościami funkcyjnymi proszę powiedzieć
-    w której postaci normalnej jest ta tabela.\\
+    Dla tabeli (relacji) z podanymi zależnościami funkcyjnymi \underline{proszę
+     powiedzieć} w której \textbf{postaci normalnej} jest ta tabela.\\
     \horrule{0.5pt}
 
 \pagebreak
@@ -186,7 +186,8 @@ BoldItalicFont=Lato-RegIta,BoldFont=Lato-Reg,ItalicFont=Lato-LigIta]{Lato-Lig}
     Relacja (**) jest w BCNF.\\
 
     Zostały zachowane zależności funkcyjne, ale jest redundancja.\\
-    Tabele bedą łączone ze sobą aż przez trzy pola (klucz obcy złożony).\\
+    Tabele bedą \underline{łączone ze sobą aż przez \textbf{trzy} pola}
+    (klucz obcy złożony).\\
     Można tego uniknąć poprzez dodanie atrybutu \texttt{ IdAdresu } do
     relacji (*) z zależnością funkcyjną \texttt{\{IdAdresu\} --> \{Ulica,
     Miasto, Województwo\}} oraz wstawienie \texttt{ IdAdresu } zamiast
@@ -210,8 +211,8 @@ BoldItalicFont=Lato-RegIta,BoldFont=Lato-Reg,ItalicFont=Lato-LigIta]{Lato-Lig}
     \texttt{\{{\color{green}\faKey}Ulica, {\color{green}\faKey}KodPocztowy\}}\\
     \texttt{\{{\color{green}\faKey}NrPracownika, Ulica, Miasto, Województwo\}}\\
 
-    "Zgubiliśmy" zależność funkcyjną nr 1. Ponadto uzyskanie kodu pocztowego
-    pracownika wymaga złączenia trzech tabel.\\
+    \textbf{"Zgubiliśmy" zależność funkcyjną nr 1}. Ponadto uzyskanie kodu
+    pocztowego\\ pracownika \underline{wymaga złączenia trzech tabel}.\\
 
     W przypadku wersji z atrybutem \texttt{ IdAdresu } otrzymalibyśmy:
 
@@ -221,7 +222,7 @@ BoldItalicFont=Lato-RegIta,BoldFont=Lato-Reg,ItalicFont=Lato-LigIta]{Lato-Lig}
     \texttt{\{{\color{green}\faKey}NrPracownika, IdAdresu\}}\\
 
     "Zgubiliśmy" zależność funkcyjną nr 1. Uzyskanie miasta i województwa
-    pracownika wymaga złączenia trzech tabel.\\
+    pracownika \underline{wymaga złączenia trzech tabel}.\\
 
     \textbf{Rozwiązanie 2} (wynikające z zależności funkcyjnej 1.)\\
 
@@ -229,7 +230,8 @@ BoldItalicFont=Lato-RegIta,BoldFont=Lato-Reg,ItalicFont=Lato-LigIta]{Lato-Lig}
     \texttt{\{{\color{green}\faKey}NrPracownika, Ulica, KodPocztowy\}}\\
 
     Obie relacje są w BCNF.\\
-    Obydwie wcześniej przedstawione zależności funkcyjne zostały "zgubione".
+    Obydwie wcześniej przedstawione \textbf{zależności funkcyjne zostały
+    "zgubione"}.
     Połączenie miedzy tabelami bedzie realizowane przez jedno pole.\\\\
 
     Obydwa rozwiązania mają swoje wady i zalety. Zalety i wady ma również
@@ -239,15 +241,15 @@ BoldItalicFont=Lato-RegIta,BoldFont=Lato-Reg,ItalicFont=Lato-LigIta]{Lato-Lig}
 \pagebreak
 
     \horrule{0.5pt}
-    Proszę podać przykład tabeli, która jest w postaci normalnej Boyce’a Codd’a,
-    a w której jest redundancja.\\
+    Proszę \underline{podać przykład} tabeli, która jest w postaci normalnej
+    \textbf{Boyce’a Codd’a}, a w której jest \textbf{redundancja}.\\
     \horrule{0.5pt}
 
 \pagebreak
 
     \horrule{0.5pt}
-    Proszę podać przykład tabeli, która jest w 5NF, ale jest w niej
-    redundancja.\\
+    Proszę \underline{podać przykład} tabeli, która jest w \textbf{5NF},
+    ale jest w niej \textbf{redundancja}.\\
     \horrule{0.5pt}
 
 \pagebreak
@@ -258,9 +260,10 @@ BoldItalicFont=Lato-RegIta,BoldFont=Lato-Reg,ItalicFont=Lato-LigIta]{Lato-Lig}
     \horrule{0.5pt}
 
     \begin{itemize}
-        \item Szukamy wszystkich nietrywialnych, pełnych zależności funkcyjnych,
-              które naruszają warunek BCNF, tzn. lewa strona zalezności
-              funkcyjnej nie jest nadkluczem.
+        \item Szukamy wszystkich \underline{nietrywialnych, pełnych zależności
+              funkcyjnych}, które naruszają warunek BCNF, tzn.
+              \textbf{lewa strona} zalezności funkcyjnej
+              \textbf{nie jest nadkluczem}.
         \item Bierzemy jedną z takich zależności funkcyjnych $A \rightarrow B$
               (obojetnie którą, algorym jest niederministyczny).
         \item Dzielimy schemat relacji na dwa nierozłączne podzbiory:
@@ -370,11 +373,11 @@ BoldItalicFont=Lato-RegIta,BoldFont=Lato-Reg,ItalicFont=Lato-LigIta]{Lato-Lig}
     \horrule{0.5pt}
 
     \begin{enumerate}
-        \item Utworzenie jednej tabeli ze wszystkimi atrybutami i kluczami
-              obcymi, tj. wspólnymi i specyficznymi dla podencji.
-        \item Utworzenie osobej tabeli dla każdej podencji.
-        \item Utworzenie osobnej tabeli na atrybuty wspólne i osobnej tabeli
-              dla każdej podencji.\\
+        \item Utworzenie \textbf{jednej tabeli ze wszystkimi} atrybutami i
+              kluczami obcymi, tj. wspólnymi i specyficznymi dla podencji.
+        \item Utworzenie \textbf{osobej tabeli dla każdej podencji}.
+        \item Utworzenie \textbf{osobnej tabeli na atrybuty wspólne i osobnej
+              tabeli dla każdej podencji}.\\
               Tabele powstałe z podencji zawierają klucz podstawiowy i atrybuty
               specyficzne, tabela wspólna i tabele powstałe z podencji są
               połączone ograniczeniami referencyjnymi.
@@ -398,25 +401,25 @@ BoldItalicFont=Lato-RegIta,BoldFont=Lato-Reg,ItalicFont=Lato-LigIta]{Lato-Lig}
 
     \textbf{WŁASNOŚCI ACID}
     \begin{itemize}
-        \item \textbf{Atomicity} (atomowość, niepodzielność)
+        \item \textbf{Atomicity} \textit{(atomowość, niepodzielność)}
         \begin{itemize}
             \item Transakcja jest niepodzielną jednostką przetwarzania, musi
                   być wykonywana w całości lub wcale.
         \end{itemize}
 
-        \item \textbf{Consistency} (spójność)
+        \item \textbf{Consistency} \textit{(spójność)}
         \begin{itemize}
             \item Po wykonaniu transakcji baza danych musi być w stanie spójnym,
                   tj. muszą zostać zachowane wszystkie więzy narzucone na dane.
         \end{itemize}
 
-        \item \textbf{Isolation} (separacja, izolacja)
+        \item \textbf{Isolation} \textit{(separacja, izolacja)}
         \begin{itemize}
             \item Transakcja powinna wyglądać tak, jakby była wykonywana w
                   izolacji od innych transakcji.
         \end{itemize}
 
-        \item \textbf{Durability} (trwałość)
+        \item \textbf{Durability} \textit{(trwałość)}
         \begin{itemize}
             \item Po zatwierdzeniu transakcji jej efekty muszą być trwałe w
                   systemie, nawet jeśli nastąpi uszkodzenie systemu natychmiast
@@ -432,9 +435,12 @@ BoldItalicFont=Lato-RegIta,BoldFont=Lato-Reg,ItalicFont=Lato-LigIta]{Lato-Lig}
               odtwarzaniem} \textit{(recovery-management component).}
 
         \item Modyfikacja danych następuje w buforze w pamięci RAM. Buforem
-              zarządza specjalny menadżer (zarządca). W pewnym momencie zarządca
-              bufora musi skopiować nową zawartość bloku z powrotem na dysk.
+              zarządza specjalny menadżer \textit{(zarządca)}.
+              W pewnym momencie zarządca bufora musi skopiować nową zawartość
+              bloku z powrotem na dysk.
     \end{itemize}
+
+\pagebreak
 
     \textbf{STRATEGIA NO-FIX/NO-FLUSH}
     \begin{itemize}
@@ -454,7 +460,7 @@ BoldItalicFont=Lato-RegIta,BoldFont=Lato-Reg,ItalicFont=Lato-LigIta]{Lato-Lig}
                   zsynchronizowania zmienionych przez tę transakcję bloków
                   z dyskiem.
             \item Synchronizacja może być wykonana później.
-            \item Zwiększa wydajność.
+            \item \underline{Zwiększa wydajność}.
             \item Na tradycyjnych dyskach HDD operacje kopiowania bloków mogą
                   być grupowane.
         \end{itemize}
@@ -476,6 +482,8 @@ BoldItalicFont=Lato-RegIta,BoldFont=Lato-Reg,ItalicFont=Lato-LigIta]{Lato-Lig}
               po awarii}, kiedy dyski z danymi i z dziennikiem transakcji nie
               zostały uszkodzone.
 
+    \pagebreak
+
         \item \textbf{Odtwarzanie po awarii systemu (RECOVERY)}
         \begin{itemize}
             \item redo
@@ -484,7 +492,7 @@ BoldItalicFont=Lato-RegIta,BoldFont=Lato-Reg,ItalicFont=Lato-LigIta]{Lato-Lig}
 
         \item \textbf{Odtwarzanie po awarii dysków z danymi}
         \begin{itemize}
-            \item RESTORE (przywracanie plików z kopii zapasowych)
+            \item RESTORE \textit{(przywracanie plików z kopii zapasowych)}
             \item RECOVERY
         \end{itemize}
     \end{itemize}
@@ -492,26 +500,28 @@ BoldItalicFont=Lato-RegIta,BoldFont=Lato-Reg,ItalicFont=Lato-LigIta]{Lato-Lig}
     \textbf{STOSOWANIE DZIENNIKA TRANSAKCJI}
     \begin{itemize}
         \item \textbf{Dziennik transakcji} jest plikiem na dysku, zawierającym
-              \textbf{informację o wszystkich wprowadzonych} przez transakcję
+              \textbf{informację o\\ wszystkich wprowadzonych} przez transakcję
               \textbf{zmianach}.
         \item Transakcja \textbf{nie jest uznana} za zakończoną, jeśli fizycznie
-              na dysku w pliku dziennika nie znajdą się wpisy opisujące
-              wszystkie zmiany oraz informacja o zatwierdzeniu transakcji.
+              na dysku w pliku dziennika nie znajdą się \textbf{wpisy opisujące
+              \underline{wszystkie} zmiany} oraz \textbf{informacja o
+              zatwierdzeniu} transakcji.
         \item Wpis (rekord) w dzienniku może zawierać znacznik transakcji, starą
-              i nową wartość zmienianego elementu, informację o rodzaju operacji,
-              może zawierać informację o tzw. operacji kompensującej. Są też
-              wpisy dotyczące rozpoczęcia transakcji i jej zatwierdzenia, w
-              pewnych systemach także wpisy dotyczące operacji odczytu.
+              i nową wartość zmienianego elementu, informację o rodzaju
+              operacji, może zawierać informację o tzw. operacji kompensującej.
+              Są też wpisy dotyczące rozpoczęcia transakcji i jej
+              zatwierdzenia, w pewnych systemach także wpisy dotyczące operacji
+              odczytu.
         \item Dzięki dziennikowi można powtórzyć te operacje, których efekty nie
               zostały jeszcze zapisane na dysku, mimo że operacja została
               zatwierdzona (no-flush).
         \item \textbf{W przypadku odtwarzania po awarii} może być wymagane
               \textbf{powtórzenie} \textit{(redo)} niektórych operacji
-              (zatwierdzone) i \textbf{wycofanie} \textit{(undo)} innych
-              (niezatwierdzone).
+              (zatwierdzone, ze względu na \textit{\textbf{No-Flush}} mogły\\
+              jeszcze nie zostać zapisane) i \textbf{wycofanie} \textit{(undo)}
+              innych (niezatwierdzone, ze względu na \textit{\textbf{No-Fix}}
+              mogły już się zapisać).
     \end{itemize}
-
-    \horrule{0.5pt}
 
     % subsection właściwiości (end)
 
@@ -525,6 +535,8 @@ BoldItalicFont=Lato-RegIta,BoldFont=Lato-Reg,ItalicFont=Lato-LigIta]{Lato-Lig}
     konfliktowo i szeregowalnego perspektywicznie}. Jakie znaczenie w praktyce
     ma pojęcie \textbf{szeregowalności konfliktowej?}\\
     \horrule{0.5pt}
+
+    \vskip 0.5cm
 
     \textbf{HARMONOGRAM SZEREGOWALNY}
     \begin{itemize}
@@ -566,17 +578,25 @@ BoldItalicFont=Lato-RegIta,BoldFont=Lato-Reg,ItalicFont=Lato-LigIta]{Lato-Lig}
         \begin{itemize}
             \item Harmonogram \textbf{S i S'} zwierają te same instrukcje i dla
                   każdego elementu danych \textbf{Q}:
-            \begin{enumerate}
-                \item $T_k$ jest transakcją, która czyta \textbf{Q} jako
-                      pierwsza \texttt{==>} $T_k$ musi być transakcją, która
-                      czyta \textbf{Q} jako pierwsza.
-                \item $T_i$ czyta \textbf{Q} zapisany przez $T_j$ \texttt{==>}
-                      $T_i$ czyta \textbf{Q} zapisany przez $T_j$.
-                \item $T_m$ jest ostatnią transakcją, która zapisuje \textbf{Q}
-                      \texttt{==>} $T_m$ jest ostatnią transakcją, która
-                      zapisuje \textbf{Q}.
-            \end{enumerate}
         \end{itemize}
+
+\begin{adjustbox}{width=\columnwidth,center}
+    \begin{tabular}{|l|l|}
+        \hline
+        $S$ & $S'$ \\
+        \hline
+        $T_k$ jest pierwszą transakcją, która czyta \textbf{Q} &
+        $T_k$ musi być pierwszą transakcją, która czyta \textbf{Q} \\
+
+        $T_i$ czyta \textbf{Q} zapisany przez $T_j$ &
+        $T_i$ czyta \textbf{Q} zapisany przez $T_j$\\
+
+        $T_m$ jest ostatnią transakcją, która zapisuje \textbf{Q} &
+        $T_m$ jest ostatnią transakcją, która zapisuje \textbf{Q}\\
+        \hline
+    \end{tabular}
+\end{adjustbox}
+
         \item Oznacza to samo co \textbf{szeregowalność konfliktowa, jeśli}
               założymy ograniczenie co do operacji \textbf{zapisów} we
               wszystkich transakcjach harmonogramu.
@@ -609,7 +629,7 @@ BoldItalicFont=Lato-RegIta,BoldFont=Lato-Reg,ItalicFont=Lato-LigIta]{Lato-Lig}
     \begin{center}
     \begin{tabular}{|p{4cm}|p{4cm}|}
         \hline
-        \textbf{T1} & \textbf{T2} \\
+        \textbf{$T_1$} & \textbf{$T_2$} \\
         \hline
         \texttt{read(A)} & \texttt{}\\
         \texttt{A := A - 50} & \texttt{}\\
@@ -641,7 +661,7 @@ BoldItalicFont=Lato-RegIta,BoldFont=Lato-Reg,ItalicFont=Lato-LigIta]{Lato-Lig}
     \begin{center}
     \begin{tabular}{|p{4cm}|p{4cm}|}
         \hline
-        \textbf{T1} & \textbf{T2} \\
+        \textbf{$T_1$} & \textbf{$T_2$} \\
         \hline
         \texttt{read(A)} & \texttt{}\\
         \texttt{write(A)} & \texttt{}\\
@@ -660,7 +680,7 @@ BoldItalicFont=Lato-RegIta,BoldFont=Lato-Reg,ItalicFont=Lato-LigIta]{Lato-Lig}
     \begin{center}
     \begin{tabular}{|p{4cm}|p{4cm}|}
         \hline
-        \textbf{T1} & \textbf{T2} \\
+        \textbf{$T_1$} & \textbf{$T_2$} \\
         \hline
         \texttt{read(A)} & \texttt{}\\
         \texttt{A := A - 50} & \texttt{}\\
@@ -686,7 +706,7 @@ BoldItalicFont=Lato-RegIta,BoldFont=Lato-Reg,ItalicFont=Lato-LigIta]{Lato-Lig}
     \label{sub:poziomy_izolacji_transakcji}
 
     \horrule{0.5pt}
-    Proszę \underline{omówić} poziom izolacji transakcji wybrany przez
+    Proszę \underline{omówić} \textbf{poziom izolacji} transakcji wybrany przez
     egzaminatora.\\
     \horrule{0.5pt}
 
@@ -719,7 +739,7 @@ BoldItalicFont=Lato-RegIta,BoldFont=Lato-Reg,ItalicFont=Lato-LigIta]{Lato-Lig}
       \cellcolor{green!25} TAK &
       \cellcolor{green!25} TAK &
       \cellcolor{yellow!25} TAK, długie &
-      \cellcolor{yellow!15} TAK, krótkie\\
+      \cellcolor{cyan!15} TAK, krótkie\\
       \hline
       Locking REPEATABLE READ  &
       \cellcolor{red!25} NIE   &
@@ -752,51 +772,53 @@ BoldItalicFont=Lato-RegIta,BoldFont=Lato-Reg,ItalicFont=Lato-LigIta]{Lato-Lig}
         \item Dodaje sie operacje \texttt{READ\_CURSOR}
               \textit{(pobierz wiersz)} dla instrukcji \texttt{FETCH}.
         \item Blokada (\texttt{S} lub nowy typ do odczytu \textit{scroll lock})
-              bedzie utrzymywana do chwili przejścia do innego wiersza lub
-              zamkniecia kursora.
+              bedzie utrzymywana do\\ chwili przejścia do innego wiersza lub
+              zamknięcia kursora.
         \item Aktualizacja wiersza przez kursor - operacja
-              \texttt{WRITE\_CURSOR} powoduje założenie na ten wiersz blokady
-              \texttt{X} utrzymywanej do końca transakcji.
+              \texttt{WRITE\_CURSOR} powoduje\\ założenie na ten wiersz
+              \textbf{blokady \texttt{X}} utrzymywanej do końca transakcji.
         \item \textbf{Eliminuje problem P4C}.
     \end{itemize}
 
-    \textbf{SNAPSHOT ISOLATION} \textit{(First-commiter-wins)}\\
+    \textbf{SNAPSHOT ISOLATION} \textit{(First-commiter-wins)}
     \begin{itemize}
-        \item Transakcja czyta dane (zatwierdzone) z chwili swojego początku,
+        \item Transakcja czyta dane (zatwierdzone) z chwili swojego początku,\\
               \textit{Start-Timestamp}.
         \item Wszelkie zmiany wykonywane są na lokalnych kopiach i zapisywane
               na końcu transakcji.
         \item Aktualizacje wykonywane przez inne transakcje nie są odczytywane.
-        \item Jeśli T1 jest gotowa do zatwierdzenia, otrzymuje
-              \textit{Commit-Timestamp(T1)}, wiekszy od wszystkich znaczników
-              \textit{Start-Timestamp} i \textit{Commit-Timestamp} rozpoczetych
-              i zakończonych już transakcji.
-        \item Transakcja zostaje zatwierdzona tylko wówczas, jeśli żadna inna T2
-              z czasem zakończenia \textit{Commit-Timestamp(T2)} zawartym w
+        \item Jeśli $T_1$ jest gotowa do zatwierdzenia, otrzymuje
+              \textit{Commit-Timestamp($T_1$)}, większy od wszystkich znaczników
+              \textit{Start-Timestamp} i \textit{Commit-Timestamp}\\
+              rozpoczętych i zakończonych już transakcji.
+        \item Transakcja zostaje zatwierdzona tylko wówczas, jeśli żadna inna
+              $T_2$
+              z czasem zakończenia \textit{Commit-Timestamp($T_2$)} zawartym w
               przedziale\\
-              \lbrack\textit{Start-Timestamp(T1)},~
-              \textit{Start-Timestamp(T1)}\rbrack~~nie zapisała danych, które
-              zapisała również T1.
-        \item W przeciwnym wypadku T1 zostaje wycofana.
+              \lbrack\textit{Start-Timestamp($T_1$)},~
+              \textit{Commit-Timestamp($T_1$)}\rbrack~~nie zapisała danych,
+              które zapisała również $T_1$.
+        \item W przeciwnym wypadku $T_1$ zostaje wycofana.
         \item \textbf{\textit{First-commiter-wins} zapobiega lost update (P4).}
-        \item Po zatwierdzeniu T1, zmiany wykonywanie przez nią są widoczne
+        \item Po zatwierdzeniu $T_1$, zmiany wykonane przez nią są widoczne
               przez wszystkie inne transakcje o czasie rozpoczecia wiekszym od
-              \textit{Commit-Timestamp} transakcji T1.
+              \textit{Commit-Timestamp} transakcji $T_1$.
     \end{itemize}
 
-    \textbf{SNAPSHOT ISOLATION} \textit{(First-writer-wins)}\\
+    \textbf{SNAPSHOT ISOLATION} \textit{(First-writer-wins)}
     \begin{itemize}
-        \item Podobnie jak wcześniej, ale są stosowane blokady do zapisu.
+        \item Podobnie jak wcześniej, ale są stosowane
+              \textbf{blokady do zapisu}.
         \item Przy każdym zapisie transakcja wykonuje podobne sprawdzenie jak
               \textit{First-commiter-wins} na końcu transakcji.
         \item Przechowywane są różne wersje danych.
-        \item Transakcja czytra dane zatwierdzone przed początkiem transakcji.
-        \item Brak blokad do odczytu, operacja odczytu nie blokuje zapisu ani
-              innych operacji odczytu.
-        \item Długotrwałe (do końca transakcji) blokady wyłącznie do zapisu.
-        \item T1 przy każdym zapisie sprawdza, czy istnieje T2, która
+        \item Transakcja czyta dane zatwierdzone przed początkiem transakcji.
+        \item \textbf{Brak blokad do odczytu}, operacja odczytu nie blokuje
+              zapisu ani innych operacji odczytu.
+        \item \textbf{Długotrwałe blokady wyłącznie do zapisu}.
+        \item $T_1$ przy każdym zapisie sprawdza, czy istnieje $T_2$, która
               zmodyfikowała dane zapisywane i zakończyła sie powodzeniem.
-        \item Jeśli tak, T1 jest wycofywana.
+        \item Jeśli tak, $T_1$ jest wycofywana.
         \item W systemie MS SQL Server tak działa poziom SNAPSHOT.
     \end{itemize}
 
@@ -821,69 +843,74 @@ BoldItalicFont=Lato-RegIta,BoldFont=Lato-Reg,ItalicFont=Lato-LigIta]{Lato-Lig}
 \pagebreak
 
     \horrule{0.5pt}
-    Proszę omówić wybrane przez egzaminatora problemy związane ze współbieżnym
-    wykonaniem transakcji.\\
+    Proszę \underline{omówić} wybrane przez egzaminatora \textbf{problemy}
+    związane ze współbieżnym wykonaniem transakcji.\\
     \horrule{0.5pt}
 
     \textbf{P0 Dirty Write} \textit{(nadpisanie brudnopisu)}
     \begin{itemize}
-        \item Transakcja T1 modyfikuje daną.
-        \item Transakcja T2 dalej modyfikuje daną zanim T1 zostanie zatwierdzona
-              lub wycofana.
+        \item Transakcja $T_1$ modyfikuje daną.
+        \item Transakcja $T_2$ dalej modyfikuje daną \textbf{zanim} $T_1$
+              zostanie \textbf{zatwierdzona lub wycofana}.
         \item \texttt{WRITE\_1[x]}
         \item \texttt{WRITE\_2[x]}
         \item (\texttt{COMMIT\_1[x]} lub \texttt{ABORT\_1[x]}) i
               (\texttt{COMMIT\_2[x]} lub \texttt{ABORT\_2[x]})
-              w dowolnej kolejności
+              w dowolnej kolejności.
     \end{itemize}
 
     \textbf{P1 Dirty Read} \textit{(czytanie brudnopisu)}
     \begin{itemize}
-        \item Transakcja T1 modyfikuje daną.
-        \item Transakcja T2 czyta daną \textbf{zanim} T1 zostanie zatwierdzona
-              lub wycofana.
-        \item \textbf{Jeśli} T1 zostaje \textbf{wycofana} T2 przeczytało daną,
-              która nie została zatwierdzona czyli w sumie nigdy nie istniała.
+        \item Transakcja $T_1$ modyfikuje daną.
+        \item Transakcja $T_2$ czyta daną \textbf{zanim} $T_1$ zostanie
+              zatwierdzona lub wycofana.
+        \item \textbf{Jeśli} $T_1$ zostaje \textbf{wycofana} $T_2$ przeczytało
+              daną, która nie została zatwierdzona czyli w sumie nigdy nie
+              istniała.
         \item \texttt{WRITE\_1[x]}
         \item \texttt{READ\_2[x]}
         \item (\texttt{COMMIT\_1[x]} lub \texttt{ABORT\_1[x]}) i
               (\texttt{COMMIT\_2[x]} lub \texttt{ABORT\_2[x]})
-              w dowolnej kolejności
+              w dowolnej kolejności.
     \end{itemize}
 
     \textbf{P2 Non-repeatable read}
     \begin{itemize}
-        \item Transakcja T1 czyta daną.
-        \item Transakcja T2 modyfikuje lub usuwa daną oraz zostaje zatwierdzona.
-        \item Jeśli T1 spróbuje znowu przeczytać daną, otrzyma zmodyfikowaną
+        \item Transakcja $T_1$ czyta daną.
+        \item Transakcja $T_2$ modyfikuje lub usuwa daną oraz zostaje
+              \textbf{zatwierdzona}.
+        \item Jeśli $T_1$ spróbuje znowu przeczytać daną, otrzyma zmodyfikowaną
               wartość albo odkryje, że dana została skasowana.
         \item \texttt{READ\_1[x]}
         \item \texttt{WRITE\_2[x]}
         \item (\texttt{COMMIT\_1[x]} lub \texttt{ABORT\_1[x]}) i
               (\texttt{COMMIT\_2[x]} lub \texttt{ABORT\_2[x]})
-              w dowolnej kolejności
+              w dowolnej kolejności.
     \end{itemize}
 
     \textbf{P3 Phantoms}
     \begin{itemize}
-        \item Transakcja T1 czyta zestaw danych spełniający jakiś
+        \item Transakcja $T_1$ czyta zestaw danych spełniający jakiś
               \textit{predykat}.
-        \item Transakcja T2 tworzy daną spełniająca ten \textit{predykat} i
-              zostaje zatwierdzona.
-        \item Jeśli T1 spróbuje znowu przeczytać zestaw danych z tym samym
-              \textit{predykat}em otrzyma zestaw danych inny od pierwotnego.
+        \item Transakcja $T_2$ \textbf{tworzy daną} spełniająca ten
+              \textit{predykat} i zostaje zatwierdzona.
+        \item Jeśli $T_1$ spróbuje znowu przeczytać zestaw danych z tym samym\\
+              \textit{predykat}em otrzyma zestaw danych
+              \textbf{inny od pierwotnego}.
         \item \texttt{READ\_1[P]}
         \item \texttt{WRITE\_2[y in P]}
         \item (\texttt{COMMIT\_1[x]} lub \texttt{ABORT\_1[x]}) i
               (\texttt{COMMIT\_2[x]} lub \texttt{ABORT\_2[x]})
-              w dowolnej kolejności
+              w dowolnej kolejności.
     \end{itemize}
 
     \textbf{P4 Lost Update}
     \begin{itemize}
-        \item Transakcja T1 czyta element danych.
-        \item Transakcja T2 aktualizuje ten element i zostaje zatwierdzona.
-        \item Transakcja T1 aktualizuje ten sam element i zostaje zatwierdzona.
+        \item Transakcja $T_1$ czyta element danych.
+        \item Transakcja $T_2$ aktualizuje ten element i
+              \textbf{zostaje zatwierdzona}.
+        \item Transakcja $T_1$ aktualizuje ten sam element i
+              \textbf{zostaje zatwierdzona}.
         \item \texttt{READ\_1[x]}
         \item \texttt{WRITE\_2[x]}
         \item \texttt{COMMIT\_2}
@@ -896,8 +923,23 @@ BoldItalicFont=Lato-RegIta,BoldFont=Lato-Reg,ItalicFont=Lato-LigIta]{Lato-Lig}
         \item \texttt{READ\_CURSOR\_1[x]}
         \item \texttt{WRITE\_2[x]}
         \item \texttt{COMMIT\_2}
-        \item \texttt{WRITE\_1[x]}
+        \item \texttt{WRITE\_CURSOR\_1[x]}
         \item \texttt{COMMIT\_1}
+    \end{itemize}
+
+    \textbf{A5A Read Skew} \textit{(skrzywiony odczyt)}
+    \begin{itemize}
+        \item Transakcja $T_1$ odczytuje \texttt{x}.
+        \item Transakcja $T_2$ aktualizuje \texttt{x} oraz \texttt{y} i zostaje
+              \textbf{zatwierdzona}.
+        \item Jeśli $T_1$ odczyta \texttt{y} to będzie miała niespójny obraz
+              danych.
+        \item \texttt{READ\_1[x]}
+        \item \texttt{WRITE\_2[x]}
+        \item \texttt{WRITE\_2[y]}
+        \item \texttt{COMMIT\_2}
+        \item \texttt{READ\_1[y]}
+        \item (\texttt{COMMIT\_1} lub \texttt{ABORT\_1})
     \end{itemize}
 
     Załóżmy, że na elementy danych \texttt{x} oraz \texttt{y} narzucono pewne
@@ -906,10 +948,10 @@ BoldItalicFont=Lato-RegIta,BoldFont=Lato-Reg,ItalicFont=Lato-LigIta]{Lato-Lig}
 
     \textbf{A5B Write Skew} \textit{(skrzywiony zapis)}
     \begin{itemize}
-        \item Transakcja T1 odczytuje \texttt{x} (ew. też \texttt{y}).
-        \item Transakcja T2 odczytuje \texttt{y} (ew. też \texttt{x}).
-        \item T1 zapisuje \texttt{y} a T2 zapisuje \texttt{x} i obydwie
-              zostają zatwierdzone.
+        \item Transakcja $T_1$ odczytuje \texttt{x} (ew. też \texttt{y}).
+        \item Transakcja $T_2$ odczytuje \texttt{y} (ew. też \texttt{x}).
+        \item $T_1$ zapisuje \texttt{y} a $T_2$ zapisuje \texttt{x} i
+              \textbf{obydwie zostają zatwierdzone}.
         \item Ostatnie cztery operacje mogą być zrealizowane w dowolnej
               (sensownej) kolejności.
         \item Każda transakcja przy zapisnie dba o spełnienie ograniczenia
@@ -917,9 +959,9 @@ BoldItalicFont=Lato-RegIta,BoldFont=Lato-Reg,ItalicFont=Lato-LigIta]{Lato-Lig}
               \texttt{C()} może nie być spełnione po zatwierdzeniu obydwu
               transakcji.
         \item \texttt{READ\_1[x]}
-        \item \texttt{READ\_2[x]}
-        \item \texttt{WRITE\_1[x], WRITE\_2[x], COMMIT\_1, COMMIT\_2}
-              w dowolnej sensownej kolejności.
+        \item \texttt{READ\_2[y]}
+        \item \texttt{WRITE\_1[y], WRITE\_2[x], COMMIT\_1, COMMIT\_2}
+              w dowolnej\\ sensownej kolejności.
     \end{itemize}
 
     % subsection sterowanie_współbieżnymi_transakcjami (end)
@@ -938,17 +980,17 @@ BoldItalicFont=Lato-RegIta,BoldFont=Lato-Reg,ItalicFont=Lato-LigIta]{Lato-Lig}
     \begin{center}
     \begin{tabular}{|p{5cm}|p{5cm}|}
         \hline
-        \textbf{T1} & \textbf{T2} \\
+        \textbf{$T_1$} & \textbf{$T_2$} \\
         \hline
-        \texttt{read(K)} \textit{(zakłada blokade S na K)} & \texttt{}\\
-        \texttt{K = 2 000,00} & \texttt{}\\
-        \texttt{} & \texttt{read(K)} \textit{(zakłada blokade S na K)}\\
-        \texttt{} & \texttt{K = 2 000,00}\\
-        \texttt{wybierz 300,00zł} & \texttt{}\\
-        \texttt{K := K - 300} \textit{(= 1 700)}& \texttt{}\\
-        \texttt{write(K)} & \texttt{}\\
-        \texttt{wait} & \texttt{wybierz 100,00 zł}\\
-        \texttt{wait} & \texttt{K := K - 100} \textit{(= 1 900)}\\
+        \texttt{read(K)} \textit{(zakłada blokadę S na K)} & \texttt{}\\
+        % \texttt{K = 2 000,00} & \texttt{}\\
+        \texttt{} & \texttt{read(K)} \textit{(zakłada blokadę S na K)}\\
+        % \texttt{} & \texttt{K = 2 000,00}\\
+        % \texttt{wybierz 300,00zł} & \texttt{}\\
+        % \texttt{K := K - 300} \textit{(= 1 700)}& \texttt{}\\
+        \texttt{write(K)} \textit{(żąda blokady X na K)} & \texttt{}\\
+        % \texttt{wait} & \texttt{wybierz 100,00 zł}\\
+        % \texttt{wait} & \texttt{K := K - 100} \textit{(= 1 900)}\\
         \texttt{wait} & \texttt{write(K)} \textit{(żąda blokady X na K)}\\
         \texttt{wait} & \texttt{wait}\\
         \texttt{wait} & \texttt{wait}\\
@@ -962,23 +1004,23 @@ BoldItalicFont=Lato-RegIta,BoldFont=Lato-Reg,ItalicFont=Lato-LigIta]{Lato-Lig}
         \item \textbf{GRAF OCZEKIWANIA} \textit{(wait-for graph)}
         \begin{itemize}
             \item Każda wykonywana transakcja jest wierzchołkiem w grafie.
-            \item Jeśli transakcja $T_i$ próbuje zablokowac element danych,
-                  który jest już blokowany przez inną transakcje $T_k$ z użyciem
-                  konflikowej blokady, w grafie tworzona jest krawedź skierowana
-                  z $T_i$ do $T_k$.
-            \item Po zwolnieniu blokady krawedź jest usuwana.
+            \item Jeśli transakcja $T_i$ próbuje zablokować element danych,
+                  który \textbf{jest już blokowany} przez inną transakcję $T_k$
+                  z użyciem \textbf{konflikowej blokady}, w grafie tworzona
+                  jest krawędź skierowana z $T_i$ do $T_k$.
+            \item Po zwolnieniu blokady krawędź jest usuwana.
             \item \textbf{Cykl w grafie oznacza zakleszczenie.}
             \item Wybór ofiary - na ofiare można wybrać transakcje młodszą, lub
-                  te, która mniej zmodyfikowała (te, której wycofanie jest
+                  tę, która mniej zmodyfikowała (tę, której wycofanie jest
                   prostsze).
         \end{itemize}
 
         \item \textbf{LIMITY CZASU} \textit{(timeouts)}
         \begin{itemize}
-            \item Jeśli transakcja czeka na zasób dłużej niż przyjeta wartość
-                  progowa, to system przyjmuje, że uległa zakleszczeniu i
-                  anuluje ją, bez wzgledu na to czy zakleszczenie rzeczywiście
-                  wystąpiło, czy nie.
+            \item Jeśli transakcja czeka na zasób \textbf{dłużej niż}
+                  przyjeta \textbf{wartość progowa}, to system przyjmuje, że
+                  uległa zakleszczeniu i \textbf{anuluje ją}, bez wzgledu na to
+                  czy zakleszczenie rzeczywiście wystąpiło, czy nie.
         \end{itemize}
     \end{itemize}
     % subsection zakleszczenia (end)
@@ -989,21 +1031,26 @@ BoldItalicFont=Lato-RegIta,BoldFont=Lato-Reg,ItalicFont=Lato-LigIta]{Lato-Lig}
     \label{sub:kursory_sterowanie_wspolbieznoscia_w_kursorach}
 
     \horrule{0.5pt}
-    Proszę omówić, jak wygląda sterowanie współbieżnością w kursorach w systemie
-    Microsoft SQL Server.\\
+    Proszę \underline{omówić}, jak wygląda \textbf{sterowanie współbieżnością w
+    \underline{kursorach}} w systemie Microsoft SQL Server.\\
     \horrule{0.5pt}
 
     \textbf{OPCJE PRZY OTWIERANIU KURSORA}
     \begin{itemize}
         \item \texttt{READ\_ONLY}
         \begin{itemize}
-            \item Nie można wykobywać pozycjonowanych zmian wierszy przez
-                  kursor, blokady nie są zakładane.
+            \item \textbf{Nie można} wykonywać pozycjonowanych zmian wierszy
+                  przez kursor.
+            \begin{minted}{sql}
+UPDATE ... WHERE CURRENT OF CursorName
+            \end{minted}
+
+            \item Blokady \textbf{nie są zakładane}.
         \end{itemize}
 
         \item \texttt{SCROLL LOCKS}
         \begin{itemize}
-            \item Kursor jest otwarty w transakcji jawnej:
+            \item Kursor jest otwarty w transakcji \textbf{jawnej}:
             \begin{itemize}
                 \item Zakładne długotrwałe blokady \texttt{U} \textit{(update)}
                       i blokady kursora \textit{(scroll locks)}.
@@ -1028,21 +1075,24 @@ ALTER DATABASE SET CURSOR_CLOSE_ON_COMMIT
 
         \item \texttt{OPTIMISTIC (WITH VALUES)}
         \begin{itemize}
-            \item Przy odczycie wiersza nie są zakładane blokady.
-            \item Przy próbie modyfikacji wiersza nastepuje sprawdzenie,
-                  czy inna transkacja tego nie zrobiła (już po odczycie przez
-                  kursor, ale przed próbą modyfikacji).
-            \item Wiersz wczytywany jest jeszcze raz i porównywane są wartości
-                  w kolumnach.
-            \item Jeśli sie nie zmieniły, to aktualizacja nastepuje, jeśli nie,
-                  zgłaszany jest błąd.
+            \item Przy \textbf{odczycie} wiersza \textbf{nie są zakładane}
+                  blokady.
+            \item Przy próbie modyfikacji wiersza nastepuje
+                  \textbf{sprawdzenie, czy inna\\ transkacja tego nie zrobiła}
+                  \textit{(już po odczycie
+                  przez kursor, ale przed próbą modyfikacji)}.
+            \item Wiersz wczytywany jest jeszcze raz i \textbf{porównywane są
+                  wartości} w kolumnach.
+            \item Jeśli sie \textbf{nie zmieniły}, to aktualizacja nastepuje,
+                  jeśli nie, zgłaszany jest \textbf{błąd}.
         \end{itemize}
 
         \pagebreak
         \item \texttt{OPTIMISTIC (WITH ROW VERSIONING)}
         \begin{itemize}
-            \item Podobnie, ale w tabelu musi być kolumna typu
-                  \texttt{rowversion} \textit{(w MSSQL 2000 i 2005 timestamp)}.
+            \item Podobnie, ale w tabeliu musi być kolumna typu
+                  \texttt{rowversion}\\
+                  \textit{(w MSSQL 2000 i 2005 timestamp)}.
             \item Wartość w takiej kolumnie jest zawsze automatycznie
                   modyfikowana przy modyfikacji wiersza, nawet jeśli jest to
                   modyfikacja typu \texttt{pole1 = pole1}.
@@ -1076,11 +1126,13 @@ ALTER DATABASE SET CURSOR_CLOSE_ON_COMMIT
     \horrule{0.5pt}
 
     \horrule{0.5pt}
-    Proszę napisać funkcję skalarną w języku Transact SQL, opisaną przez egzaminatora.\\
+    Proszę napisać funkcję skalarną w języku Transact SQL, opisaną przez
+    egzaminatora.\\
     \horrule{0.5pt}
 
     \horrule{0.5pt}
-    Proszę napisać w języku Transact SQL opisaną przez egzaminatora funkcję zwracającą zestaw rekordów.\\
+    Proszę napisać w języku Transact SQL opisaną przez egzaminatora funkcję
+    zwracającą zestaw rekordów.\\
     \horrule{0.5pt}
 
     \horrule{0.5pt}
@@ -1116,7 +1168,7 @@ ALTER DATABASE SET CURSOR_CLOSE_ON_COMMIT
 
     \textbf{RAID 0}
     \begin{itemize}
-        \item Dane umieszczane są równomierne na dwóch lub wiecej dyskach.
+        \item Dane umieszczane są równomierne na dwóch lub więcej dyskach.
         \item Jeden dysk: \texttt{B1, B2, B3, B4, B5, B6, B7, B8, ...}
         \item Cztery dyski (RAID 0) - przykład.
 
@@ -1187,10 +1239,10 @@ ALTER DATABASE SET CURSOR_CLOSE_ON_COMMIT
 
         \item \textbf{ZALETY}
         \begin{itemize}
-            \item Szybszy odczyt i zapis w porównaniu z pojedyńczym dyskiem
-                  dzieki operacjom równoległym.
-            \item Był używany do połączenia dwóch lub wiecej mniejszych dysków
-                  w jeden wiekszy logiczny dysk.
+            \item \textbf{Szybszy odczyt i zapis} w porównaniu z pojedynczym
+                  dyskiem dzięki operacjom równoległym.
+            \item Był używany do połączenia dwóch lub więcej mniejszych dysków
+                  w jeden większy logiczny dysk.
         \end{itemize}
 
         \item \textbf{WADY}
@@ -1198,10 +1250,10 @@ ALTER DATABASE SET CURSOR_CLOSE_ON_COMMIT
             \item \textbf{Brak odporności na błedy} - nie ma nadmiarowości!
             \item Niezawodność jest odwrotnie proporcjonalna do liczby dysków
                   w systemie RAID 0.\\
-                  Niezawodność dwóch dysków jest połowe mniejsza od
+                  Niezawodność dwóch dysków jest połowę mniejsza od
                   niezawodności jednego dysku.
             \item RAID 0 nie jest polecany w środowiskach podwyższonej
-                  odporności na błedy \textit{(mission-critical environments)}.
+                  odporności na błędy \textit{(mission-critical environments)}.
         \end{itemize}
 
     \end{itemize}
@@ -1252,26 +1304,27 @@ ALTER DATABASE SET CURSOR_CLOSE_ON_COMMIT
 
         \item \textbf{ZALETY}
         \begin{itemize}
-            \item Odczyt jest prawie dwukrotnie szybszy w porównaiu z
-                  pojedyńczym dyskiem.
+            \item \textbf{Odczyt} jest prawie dwukrotnie \textbf{szybszy} w
+                  porównaniu z pojedynczym dyskiem.
             \item \textbf{Odporny na awarie} - $N$ dysków może przetrwać
-                  jednoczesną awarie $N - 1$ dysków.
+                  jednoczesną awarię $N - 1$ dysków.
         \end{itemize}
 
         \item \textbf{WADY}
         \begin{itemize}
-            \item Wojniejszy zapis w porównaiu z pojedyńczym dyskiem.\\
-                  Dane muszą być zapisane na obydwu dyskach, na początku
+            \item \textbf{Wolniejszy zapis} w porównaniu z pojedynczym
+                  dyskiem.\\
+                  Dane muszą być zapisane na obydwu dyskach, a na początku
                   operacji głowice są na ogół nad innymi ścieżkami i sektorami.
-            \item Pamieć podreczna powinna być włączona w celu przyśpieszenia
+            \item Pamieć podręczna powinna być włączona w celu przyśpieszenia
                   operacji zapisu.
             \item Używa efektywnie jedynie 50\% całkowitej pojemności.
         \end{itemize}
 
         \item \textbf{TYPOWE ZASTOSOWANIE}
         \begin{itemize}
-            \item \textbf{Dziennik transakcji}
-            \item \textbf{System operacyjny}
+            \item \textbf{Dziennik transakcji}.
+            \item \textbf{System operacyjny}.
             \item Dziennik transakcji jest zapisywany sekwencyjnie, najlepiej
                   stosować jeden system RAID 1 dla każdego dziennika.
             \item Dziennik jest jednym z najważniejszych komponentów systemu
@@ -1285,7 +1338,7 @@ ALTER DATABASE SET CURSOR_CLOSE_ON_COMMIT
 
     \textbf{RAID 5}
     \begin{itemize}
-        \item Zawiera trzy lub wiecej dysków.
+        \item Zawiera \textbf{trzy} lub więcej dysków.
         \item Zapisy są wykonywane blokami na wielu dyskach z wykorzystaniem
               bloków parzystości.
         \item Bloki mogą być wieksze niż sektory (np. 256 sektorów).
@@ -1293,7 +1346,7 @@ ALTER DATABASE SET CURSOR_CLOSE_ON_COMMIT
 
             \begin{center}
             \begin{tabular}{cccc}
-                \begin{minipage}{2.5cm}
+                \begin{minipage}{2.6cm}
 
                 \begin{center}
                     \begin{tabular}{|c|}
@@ -1367,15 +1420,15 @@ ALTER DATABASE SET CURSOR_CLOSE_ON_COMMIT
     \begin{itemize}
         \item \textbf{ZALETY}
         \begin{itemize}
-            \item Szybki odczyt.
-            \item Wzglednie efektywne wykorzystanie przestrzeni dyskowej.
+            \item \textbf{Szybki odczyt}.
+            \item Względnie efektywne wykorzystanie przestrzeni dyskowej.
             \item \textbf{Odporność na błedy}.
             \begin{itemize}
                 \item Bloki parzystości są odczytywane jeśli przy odczycie
-                      wykryty jest błąd sumy kontrolnej (CRC error).
+                      wykryty jest błąd sumy kontrolnej \textit{(CRC error)}.
                 \item W takim przypadku pozostałe bloki z paska są automatycznie
-                      użyte do odtwozenia informacji w bloku uszkodzonym.
-                \item Podobnie dzieje sie przy uszkodzeniu całego dysku.
+                      \\użyte do odtworzenia informacji w bloku uszkodzonym.
+                \item Podobnie dzieje się przy uszkodzeniu całego dysku.
                 \item Komputer może być "nieświadomy" awarii dysku.\\
                       System RAID pracuje, chociaż nieco wolniej.
             \end{itemize}
@@ -1390,24 +1443,25 @@ ALTER DATABASE SET CURSOR_CLOSE_ON_COMMIT
                 \item Zmieniany blok i odpowiedni blok parzystości musi być
                       odczytany, trzeba zapisać nową wartość w bloku
                       parzystości.
-                \item Wystarczy znać różnice miedzy starą i nową wartością
-                      zmienianego bloku i starą watość bloku parzystości.
+                \item Wystarczy znać różnice między starą i nową wartością
+                      zmienianego bloku i starą wartość bloku parzystości.
                 \item Na końcu nowy blok i zmieniony blok parzystości muszą
                       być zapisane na dysk.
             \end{itemize}
-            \item Należy włączyć pamieć podreczna jeśli jest podtrzymywanie
+            \item Należy włączyć pamięć podręczną jeśli jest podtrzymywanie
                   bateryjne. Operacje zapisu mogą być wówczas przyśpieszone.
             \item Wykorzystuje $\frac{1}{n}$ pojemności dysku na bloki
-                  parzystości, gdzie $n$ oznacza liczbe dysków w systemie.
+                  parzystości, gdzie $n$ oznacza liczbę dysków w systemie.
         \end{itemize}
 
         \item \textbf{TYPOWE ZASTOSOWANIE}
         \begin{itemize}
-            \item Systemy, w których wiekość operacji to operacje odczytu.
-            \item Tablice lub indeksy, które są tylko do odczytu lub są rzadko
-                  modyfikowane.
-            \item RAID 5 nie jest na ogół dobrym rozwiązaniem, jeśli wiecej niż
-                  10 procent operacji to operacji zapisu.\\
+            \item Systemy, w których
+                  \textbf{większość operacji to operacje odczytu}.
+            \item \textbf{Tablice lub indeksy}, które są tylko do odczytu lub
+                  są rzadko modyfikowane.
+            \item RAID 5 nie jest na ogół dobrym rozwiązaniem, jeśli więcej niż
+                  10 procent operacji to operacje zapisu.\\
                   Należy jednak znać wydajność systemu po włączeniu buforowania.
         \end{itemize}
     \end{itemize}
@@ -1419,7 +1473,8 @@ ALTER DATABASE SET CURSOR_CLOSE_ON_COMMIT
               składowego zamiast pojedynczego dysku.
         \item RAID 10 jest systemem z przeplotem z systemami RAID 1 jako
               elementami składowymi \textit{(a stripe of mirrors)}.
-        \item \textbf{Jeden dysk z każdego systemu} RAID 1 może ulec awarii
+        % \item \textbf{Jeden dysk z każdego systemu} RAID 1 może ulec awarii
+        \item $N - 1$ \textbf{z każdego systemu} RAID 1 może ulec awarii
               bez całkowitej utraty danych.
     \end{itemize}
 
@@ -1444,31 +1499,32 @@ ALTER DATABASE SET CURSOR_CLOSE_ON_COMMIT
     \end{center}
 
     \begin{itemize}
-        \item Ten system może przetwać równoczesną awiarie \textbf{do trzech}
+        \item Ten system może przetwać równoczesną awarię \textbf{do trzech}
               dysków.\\
 
         \item \textbf{CECHY}
         \begin{itemize}
-            \item Najszybszy zapis i odczyt.
-            \item Odporność na błedy.
+            \item \textbf{Najszybszy zapis i odczyt}.
+            \item Odporność na błędy.
             \item Wykorzystuje efektywnie 50\% pojemności całkowitej.
             \item Najlepszy, ale najdroższy.
-            \item Polecany w systemach baz danych, gdy liczba operacji zapisu
-                  jest wiekszą niż 10\% liczby wszystkich operacji.
+            \item Polecany w systemach baz danych, gdy
+                  \textbf{liczba operacji zapisu}
+                  jest \\większa niż 10\% liczby wszystkich operacji.
         \end{itemize}
     \end{itemize}
 
     \textbf{RAID 01 (0+1)}
     \begin{itemize}
-        \item Różnice miedzy RAID 0+1 i RAID 1+0 stanowi położenie każdego z
+        \item Różnice między RAID 0+1 i RAID 1+0 stanowi położenie każdego z
               systemów RAID.
-        \item Jest uważany za gorszy niż RAID 10.
-        \item Nie przetrwa dwóch równoczensnych awarii jeśli ne są to dyski
-              z tego samego układu RAID.
+        \item Jest uważany za \textbf{gorszy niż RAID 10}.
+        \item \textbf{Nie przetrwa dwóch równoczensnych awarii}
+              jeśli nie są to dyski z tego samego układu RAID.
         \item Po awarii jednego dysku, wszystkie dyski w drugim pasku stanowią
               krytyczne punkty. Połowa dysków przestaje być wykorzystywana.\\
               W systemie RAID 10 jeśli uszkodzeniu ulegnie jeden dysk, tylko
-              jeden staje sie krytycznym punktem układu.
+              jeden staje się krytycznym punktem układu.
     \end{itemize}
 
     \begin{center}
@@ -1506,8 +1562,8 @@ ALTER DATABASE SET CURSOR_CLOSE_ON_COMMIT
 
     \horrule{0.5pt}
     Proszę \underline{powiedzieć co oznacza} termin skalowanie \textbf{poziome}
-    w systemach baz danych i jak realizowane jest skalowanie poziome w bazach
-    danych NoSQL.\\
+    w systemach baz danych i \textbf{jak realizowane jest} skalowanie poziome
+    w bazach danych NoSQL.\\
     \horrule{0.5pt}
 
     \vskip 0.5cm
@@ -1529,7 +1585,8 @@ ALTER DATABASE SET CURSOR_CLOSE_ON_COMMIT
     Proszę \underline{podać przykłady dokumentów} w formacie \textbf{JSON}.\\
     \underline{Jak} dokumenty są przechowywane w systemach \textbf{NoSQL}
     zawierających wiele węzłów (komputerów) połączonych siecią komputerową?\\
-    Czy łączenie danych z różnych dokumentów odbywa się na ogół w bazie danych
+    Czy \underline{łączenie danych} z różnych dokumentów odbywa się na ogół w
+    bazie danych
     (jak operacja \texttt{JOIN} w bazach relacyjnych), czy w aplikacji?\\
     Czy w bazach \textbf{dokumentowych} należy unikać redundancji tak, jak w
     systemach relacyjnych?\\
