@@ -1,0 +1,123 @@
+\section{Model ER}
+\label{sec:model_er}
+
+\horrule{0.5pt}
+Proszę \underline{przedstawić przykład} diagramu \textbf{ER} w notacji
+\textbf{Barkera}, zawierającego dwie encje i związek między nimi \textit{(związek
+bez własnych atrybutów)}. Diagram powinien być taki, że po jego
+transformacji do modelu relacyjnego \textbf{otrzymamy trzy relacje} \textit{(trzy
+tabele)}.\\
+\horrule{0.5pt}
+
+% \includegraphics[scale=0.521]{erd}
+
+\begin{center}
+    \begin{tikzpicture}[node distance=1.5in]
+
+        \matrix [entity=Pracownik] {
+        \properties{
+        +IdPracownika,
+        *Nazwisko,
+        *Etat,
+        *Pensja
+        }
+        };
+
+        \matrix [entity=Projekt, right=of Pracownik-+IdPracownika, entity anchor=Projekt-+NrProjektu]  {
+        \properties{
+        +NrProjektu,
+        *Nazwa,
+        *Sponsor
+        }
+        };
+
+        \draw [many to many] (Pracownik-+IdPracownika)   to (Projekt-+NrProjektu);
+    \end{tikzpicture}
+\end{center}
+
+% \vskip 0.1cm
+
+% \begin{center}
+% \entity{pracownik}[
+%     \begin{tabular}{l}
+%       Pracownik \\
+%       \hline
+%       \#~IdPracownika \\
+%       \textasteriskcentered~Nazwisko \\
+%       \textasteriskcentered~Etat \\
+%       \textasteriskcentered~Pensja \\
+%     \end{tabular}
+% ]\hspace{2.5cm}
+% \entity{projekt}[
+%     \begin{tabular}{l}
+%       Projekt \\
+%       \hline
+%       \#~NrProjektu \\
+%       \textasteriskcentered~Nazwa \\
+%       \textasteriskcentered~Sponsor \\
+%     \end{tabular}
+% ]
+% \ncline[arrowscale=2]{>-<}{pracownik}{projekt}
+% \naput[npos=0.1]{M}\naput[npos=0.85]{N}
+% \end{center}
+Po transformacji diagramu zostaną utworzone trzy tabele.
+\begin{center}
+    \begin{tabular}{cc}
+        \begin{minipage}{.5\linewidth}
+            \begin{center}
+                \begin{tabular}{|l|}
+                    \hline
+                    \texttt{Pracownicy} \\
+                    \hline
+                    \texttt{\#~IdPracownika} \\
+                    \texttt{*~Nazwisko} \\
+                    \texttt{*~Etat} \\
+                    \texttt{*~Pensja} \\
+                    \hline
+                \end{tabular}
+            \end{center}
+
+        \end{minipage} &
+        \begin{minipage}{.5\linewidth}
+            % \begin{center}
+            \begin{tabular}{|l|}
+                \hline
+                \texttt{Projekty} \\
+                \hline
+                \texttt{\#~NrProjektu} \\
+                \texttt{*~Nazwa} \\
+                \texttt{*~Sponsor} \\
+                \hline
+            \end{tabular}
+            % \end{center}
+        \end{minipage}
+    \end{tabular}
+\end{center}
+\begin{center}
+    \begin{tabular}{|l|}
+        \hline
+        \texttt{Pracownicy\_Projekty} \\
+        \hline
+        \texttt{\#~IdPracownika REFERENCES Pracownicy(IdPracownika)} \\
+        \texttt{\#~NrProjektu REFERENCES Projekty(NrProjektu)} \\
+        \texttt{PRIMARY KEY (IdPracownika, NrProjektu)}\\
+        \hline
+    \end{tabular}
+\end{center}
+
+\horrule{0.5pt}
+Proszę \underline{omówić} trzy schematy \textbf{transformacji hierarchii}
+encji do modelu relacyjnego.\\
+\horrule{0.5pt}
+\begin{enumerate}
+    \item Utworzenie \textbf{jednej tabeli ze wszystkimi} atrybutami i
+    kluczami obcymi, tj. wspólnymi i specyficznymi dla podencji.
+    \item Utworzenie \textbf{osobnej tabeli dla każdej podencji}.
+    \item Utworzenie \textbf{osobnej tabeli na atrybuty wspólne i osobnej
+    tabeli dla każdej podencji}.
+\end{enumerate}
+{\small
+Tabele powstałe z podencji zawierają klucz podstawiowy i atrybuty
+specyficzne, tabela wspólna i tabele powstałe z podencji są
+połączone ograniczeniami referencyjnymi.
+}

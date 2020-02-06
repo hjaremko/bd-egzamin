@@ -1,0 +1,95 @@
+\section{Charakterystyka baz danych NoSQL}
+\label{sec:charakterystyka_baz_danych_nosql}
+
+\horrule{0.5pt}
+Proszę \underline{powiedzieć co oznacza} termin skalowanie \textbf{poziome}
+w systemach baz danych i \textbf{jak realizowane jest} skalowanie poziome
+w bazach danych NoSQL.\\
+\horrule{0.5pt}
+
+\vskip 0.5cm
+
+\textbf{SKALOWANIE POZIOME}
+\begin{itemize}
+    \item Jest to dodawanie dodatkowych "węzłów" do systemu, na przykład
+          dodawanie nowego komputera do systemu.
+\end{itemize}
+
+\textbf{SKALOWANIE PIONOWE}
+\begin{itemize}
+    \item Jest to dodawanie dodatkowych zasobów istniejącym "węzłom" w
+    systemie, na przykład dodawanie RAM komputerowi w systemie.
+\end{itemize}
+
+\textbf{REALIZACJA SKALOWANIA POZIOMEGO}
+\begin{itemize}
+    \item Rezygnacja z części funkcjonalności relacyjnych baz danych,
+          brak relacji, transakcji, nie są zachowane własności ACID.
+\end{itemize}
+
+\horrule{0.5pt}
+Proszę \underline{podać główne typy} baz danych \textbf{NoSQL}.\\
+Proszę \underline{podać przykłady dokumentów} w formacie \textbf{JSON}.\\
+\underline{Jak} dokumenty są przechowywane w systemach \textbf{NoSQL}
+zawierających wiele węzłów (komputerów) połączonych siecią komputerową?\\
+Czy \underline{łączenie danych} z różnych dokumentów odbywa się na ogół w
+bazie danych
+(jak operacja \texttt{JOIN} w bazach relacyjnych), czy w aplikacji?\\
+Czy w bazach \textbf{dokumentowych} należy unikać redundancji tak, jak w
+systemach relacyjnych?\\
+\horrule{0.5pt}
+
+\vskip 0.5cm
+
+\textbf{GŁÓWNE TYPY}
+\begin{itemize}
+    \item Klucz-Wartość
+    \item Hierarchiczna struktura klucz-wartość
+    \item Dokumentowe
+    \item Grafowe
+\end{itemize}
+
+\pagebreak
+
+\textbf{PRZYKŁAD JSON}
+\begin{minted}[mathescape,
+           linenos,
+           numbersep=5pt,
+           gobble=2,
+           frame=lines,
+           framesep=2mm]{json}
+{
+ "menu":
+ {
+   "id": "file",
+   "value": "File",
+   "popup":
+   {
+     "menuitem":
+     [
+       {"value": "New", "onclick": "CreateNewDoc()"},
+       {"value": "Open", "onclick": "OpenDoc()"},
+       {"value": "Close", "onclick": "CloseDoc()"}
+     ]
+   }
+ }
+}
+\end{minted}
+
+\textbf{PRZECHOWYWANIE DOKUMENTÓW}
+\begin{itemize}
+    \item Dokumenty rozrzucone po węzłach, każdy z węzłów czyta i zapisuje
+          równolegle.
+\end{itemize}
+
+\textbf{ŁĄCZENIE DOKUMENTÓW}
+\begin{itemize}
+    \item Odbywa sie w aplikacji.
+\end{itemize}
+
+\textbf{UNIKANIE REDUNDANCJI}
+\begin{itemize}
+    \item Nie należy unikać redundancji.
+    \item Liczy się szybkość dostępu do danych, często przez wielu
+          użytkowników na raz.
+\end{itemize}

@@ -1,0 +1,715 @@
+\section{Transakcje}
+\label{sec:transakcje}
+
+\subsection{Właściwiości (ACID)}
+\label{subsec:wlasciwiosci}
+
+\horrule{0.5pt}
+Proszę omówić własności \textbf{ACID} transakcji. W jaki sposób
+implementowane są własności \textbf{A i D}? Proszę podać jak
+wykorzystywany jest \textbf{dziennik transakcji} oraz co to jest
+strategia \textbf{No-Fix/No-Flush} i jak wpływa ona na sposoby
+odtwarzania systemu po awarii.\\
+\horrule{0.5pt}
+
+\textbf{WŁASNOŚCI ACID}
+\begin{itemize}
+    \item \textbf{Atomicity} \textit{(atomowość, niepodzielność)}
+    \begin{itemize}
+        \item Transakcja jest niepodzielną jednostką przetwarzania, musi
+        być wykonywana w całości lub wcale.
+    \end{itemize}
+
+    \item \textbf{Consistency} \textit{(spójność)}
+    \begin{itemize}
+        \item Po wykonaniu transakcji baza danych musi być w stanie spójnym,
+        tj. muszą zostać zachowane wszystkie więzy narzucone na dane.
+    \end{itemize}
+
+    \item \textbf{Isolation} \textit{(separacja, izolacja)}
+    \begin{itemize}
+        \item Transakcja powinna wyglądać tak, jakby była wykonywana w
+        izolacji od innych transakcji.
+    \end{itemize}
+
+    \item \textbf{Durability} \textit{(trwałość)}
+    \begin{itemize}
+        \item Po zatwierdzeniu transakcji jej efekty muszą być trwałe w
+        systemie, nawet jeśli nastąpi uszkodzenie systemu natychmiast
+        po zatwierdzeniu.
+    \end{itemize}
+
+\end{itemize}
+
+\textbf{IMPLEMENTACJA A I D}
+\begin{itemize}
+    \item Za odtwarzanie i w pewnym sensie za \textbf{atomowość, trwałość}
+    oraz spójność, jest odpowiedzialny \textbf{moduł zarządzania
+    odtwarzaniem} \textit{(recovery-management component).}
+
+    \item Modyfikacja danych następuje w buforze w pamięci RAM. Buforem
+    zarządza specjalny menadżer \textit{(zarządca)}.
+    W pewnym momencie zarządca bufora musi skopiować nową zawartość
+    bloku z powrotem na dysk.
+\end{itemize}
+
+\pagebreak
+
+\textbf{STRATEGIA NO-FIX/NO-FLUSH}
+\begin{itemize}
+    \item Stosowana w większości relacyjnych systemów baz zdanych
+    wykorzystujących dzienniki transakcji.
+
+    \item \textbf{NO-FIX}
+    \begin{itemize}
+        \item Blok skopiowany do RAM \textbf{może} być skopiowany lub
+        przeniesiony z powrotem na dysk zanim transakcja, która ten
+        blok zmodyfikowała się skończy.
+    \end{itemize}
+
+    \item \textbf{NO-FLUSH}
+    \begin{itemize}
+        \item Na końcu transakcji \textbf{nie ma obowiązku}
+        zsynchronizowania zmienionych przez tę transakcję bloków
+        z dyskiem.
+        \item Synchronizacja może być wykonana później.
+        \item \underline{Zwiększa wydajność}.
+        \item Na tradycyjnych dyskach HDD operacje kopiowania bloków mogą
+        być grupowane.
+    \end{itemize}
+\end{itemize}
+
+\textbf{WPŁYW NA SPOSOBY ODTWARZANIA SYSTEMU PO AWARII}
+\begin{itemize}
+    \item \textbf{No-Flush} oznacza, że nie mamy gwarancji, że natychmiast
+    po zakończeniu transakcji na dysku znajdą się zmienione dane.
+    \item Trwałość transakcji w większości systemów zapewniają
+    \textbf{dzienniki transakcji}.
+    \item \textbf{No-Fix} oznacza, że może się zdarzyć, że blok zmieniony
+    przez transakcje zostanie skopiowany na dysk, zanim transakcja
+    zakończy się.
+    \item Synchronizacja buforów z RAM z dyskiem może być realizowane
+    cyklicznie w ramach \textbf{punktów kontrolnych}
+    \textit{(control point, check point)}.
+    \item \textbf{Punkty kontrolne} ułatwiają \textbf{odtwarzanie systemu
+    po awarii}, kiedy dyski z danymi i z dziennikiem transakcji nie
+    zostały uszkodzone.
+
+    \pagebreak
+
+    \item \textbf{Odtwarzanie po awarii systemu (RECOVERY)}
+    \begin{itemize}
+        \item redo
+        \item undo
+    \end{itemize}
+
+    \item \textbf{Odtwarzanie po awarii dysków z danymi}
+    \begin{itemize}
+        \item RESTORE \textit{(przywracanie plików z kopii zapasowych)}
+        \item RECOVERY
+    \end{itemize}
+\end{itemize}
+
+\textbf{STOSOWANIE DZIENNIKA TRANSAKCJI}
+\begin{itemize}
+    \item \textbf{Dziennik transakcji} jest plikiem na dysku, zawierającym
+    \textbf{informację o\\ wszystkich wprowadzonych} przez transakcję
+    \textbf{zmianach}.
+    \item Transakcja \textbf{nie jest uznana} za zakończoną, jeśli fizycznie
+    na dysku w pliku dziennika nie znajdą się \textbf{wpisy opisujące
+    \underline{wszystkie} zmiany} oraz \textbf{informacja o
+    zatwierdzeniu} transakcji.
+    \item Wpis (rekord) w dzienniku może zawierać znacznik transakcji, starą
+    i nową wartość zmienianego elementu, informację o rodzaju
+    operacji, może zawierać informację o tzw. operacji kompensującej.
+    Są też wpisy dotyczące rozpoczęcia transakcji i jej
+    zatwierdzenia, w pewnych systemach także wpisy dotyczące operacji
+    odczytu.
+    \item Dzięki dziennikowi można powtórzyć te operacje, których efekty nie
+    zostały jeszcze zapisane na dysku, mimo że operacja została
+    zatwierdzona (no-flush).
+    \item \textbf{W przypadku odtwarzania po awarii} może być wymagane
+    \textbf{powtórzenie} \textit{(redo)} niektórych operacji
+    (zatwierdzone, ze względu na \textit{\textbf{No-Flush}} mogły\\
+    jeszcze nie zostać zapisane) i \textbf{wycofanie} \textit{(undo)}
+    innych (niezatwierdzone, ze względu na \textit{\textbf{No-Fix}}
+    mogły już się zapisać).
+\end{itemize}
+
+% subsection właściwiości (end)
+
+\pagebreak
+
+\subsection{Harmonogramy, szeregowalność konfliktowa i perspektywiczna}
+\label{sub:harmonogramy_szeregowalnosc_konfliktowa_i_perspektywiczna}
+
+\horrule{0.5pt}
+Proszę podać definicje \textbf{harmonogramu szeregowalnego, szeregowalnego
+konfliktowo i szeregowalnego perspektywicznie}. Jakie znaczenie w praktyce
+ma pojęcie \textbf{szeregowalności konfliktowej?}\\
+\horrule{0.5pt}
+
+\vskip 0.5cm
+
+\textbf{HARMONOGRAM SZEREGOWALNY}
+\begin{itemize}
+    \item \textbf{Jeśli jego wpływ na stan bazy danych jest taki sam jak
+    pewnego harmonogramu szeregowego, niezależnie od stanu
+    początkowego tej bazy danych}.
+    \item Harmonogramy są \textbf{równoważne co do wyniku}
+    \textit{(result equivalent)}, jeżeli dają ten sam stan bazy danych
+    bez względu na początkowy stan bazy.
+\end{itemize}
+
+\textbf{HARMONOGRAM SZEREGOWALNY KONFLIKTOWO}
+\textit{(conflict serializable)}
+\begin{itemize}
+    \item Harmonogramy są \textbf{równoważne konfliktowo}
+    \textit{(conflict equivalent)} jeżeli kolejność wszystkich
+    operacji konfliktowych jest w nich taka sama.
+    \item Dwie operacje są w stanie \textbf{konfliktu}, jeśli:
+    \begin{itemize}
+        \item Należą do różnych transakcji.
+        \item Uzyskują dostep do tego samego elementu.
+        \item Przynajmnej jedna z nich jest operacją zapisu.
+    \end{itemize}
+
+    \item Harmonogram \textbf{S} jest \underline{szeregowalny konfliktowo},
+    jeżeli jest on \underline{równoważny} \underline{konfliktowo} z pewnym
+    szeregowym harmonogramem \textbf{S'}.
+    \item W takim przypadku możemy zamieniać kolejność niekonfliktowych
+    operacji w \textbf{S} do momentu, aż utworzony zostanie równoważny
+    harmonogram szeregowy \textbf{S'}.
+\end{itemize}
+
+\pagebreak
+
+\textbf{HARMONOGRAM SZEREGOWALNY PERSPEKTYWICZNIE}\\
+\textit{(view serializability)}
+\begin{itemize}
+    \item Jest on \textbf{równoważny perspektywicznie} pewnemu
+    harmonogramowi szeregowemu.
+    \item \textbf{Równoważność perspektywiczna}:
+    \begin{itemize}
+        \item Harmonogram \textbf{S i S'} zwierają te same instrukcje i dla
+        każdego elementu danych \textbf{Q}:
+    \end{itemize}
+
+    \begin{adjustbox}{width=\columnwidth,center}
+        \begin{tabular}{|l|l|}
+            \hline
+            $S$ & $S'$ \\
+            \hline
+            $T_k$ jest pierwszą transakcją, która czyta \textbf{Q} &
+            $T_k$ musi być pierwszą transakcją, która czyta \textbf{Q} \\
+
+            $T_i$ czyta \textbf{Q} zapisany przez $T_j$ &
+            $T_i$ czyta \textbf{Q} zapisany przez $T_j$\\
+
+            $T_m$ jest ostatnią transakcją, która zapisuje \textbf{Q} &
+            $T_m$ jest ostatnią transakcją, która zapisuje \textbf{Q}\\
+            \hline
+        \end{tabular}
+    \end{adjustbox}
+
+    \item Oznacza to samo co \textbf{szeregowalność konfliktowa, jeśli}
+    założymy ograniczenie co do operacji \textbf{zapisów} we
+    wszystkich transakcjach harmonogramu.
+    \begin{itemize}
+        \item Każda operacja \texttt{WRITE[x]} jest poprzedzona operacją
+        \texttt{READ[x]}
+        \item Wartość zapisana przez \texttt{WRITE[x]} zależy tylko od
+        wartości elementu \texttt{x} odczytanej przez operacje
+        \texttt{READ[x]} \textit{(jest pewną nie stałą funkcją tylko elementu
+        \texttt{x}, nie zależy od wartości innych elementów)}.
+    \end{itemize}
+
+    \item Szeregowalność perspektywiczna zapenia \textbf{spójność} bazy
+    danych, ponieważ powoduje, że wyniki harmonogramu są takie same
+    jak wyniki pewnego harmonogamu szeregowego.
+\end{itemize}
+
+\textbf{ZNACZENIE W PRAKTYCE SZEREGOWALNOŚCI KONFLIKTOWEJ}
+\begin{itemize}
+    \item Zapewnia \textbf{spójność} bazy danych.
+\end{itemize}
+
+\pagebreak
+
+\horrule{0.5pt}
+Proszę \underline{podać przykłady} harmonogramów \textbf{szeregowalnych}
+\underline{nie szeregowych}.\\
+\horrule{0.5pt}
+
+\begin{center}
+    \begin{tabular}{|p{4cm}|p{4cm}|}
+        \hline
+        \textbf{$T_1$} & \textbf{$T_2$} \\
+        \hline
+        \texttt{read(A)} & \texttt{}\\
+        \texttt{A := A - 50} & \texttt{}\\
+        \texttt{write(A)} & \texttt{}\\
+        \texttt{} & \texttt{read(A)}\\
+        \texttt{} & \texttt{temp := A * 0.1}\\
+        \texttt{} & \texttt{A := A - temp}\\
+        \texttt{} & \texttt{write(A)}\\
+        \texttt{read(B)} & \texttt{}\\
+        \texttt{B := B + 50} & \texttt{}\\
+        \texttt{write(B)} & \texttt{}\\
+        \texttt{} & \texttt{read(B)}\\
+        \texttt{} & \texttt{B := B + temp}\\
+        \texttt{} & \texttt{write(B)}\\
+        \hline
+    \end{tabular}
+\end{center}
+
+\pagebreak
+
+\horrule{0.5pt}
+Proszę \underline{podać przykłady} harmonogramów
+\textbf{szeregowalnych konfliktowo} i takich, które \textbf{nie są}
+szeregowalne konfliktowo.\\
+\horrule{0.5pt}
+
+\textbf{HARMONOGRAMY SZERGOWALNE KONFLIKTOWO}
+
+\begin{center}
+    \begin{tabular}{|p{4cm}|p{4cm}|}
+        \hline
+        \textbf{$T_1$} & \textbf{$T_2$} \\
+        \hline
+        \texttt{read(A)} & \texttt{}\\
+        \texttt{write(A)} & \texttt{}\\
+        \texttt{} & \texttt{read(A)}\\
+        \texttt{} & \texttt{write(A)}\\
+        \texttt{read(B)} & \texttt{}\\
+        \texttt{write(B)} & \texttt{}\\
+        \texttt{} & \texttt{read(B)}\\
+        \texttt{} & \texttt{write(B)}\\
+        \hline
+    \end{tabular}
+\end{center}
+
+\textbf{HARMONOGRAMY \underline{NIE}SZERGOWALNE KONFLIKTOWO}
+
+\begin{center}
+    \begin{tabular}{|p{4cm}|p{4cm}|}
+        \hline
+        \textbf{$T_1$} & \textbf{$T_2$} \\
+        \hline
+        \texttt{read(A)} & \texttt{}\\
+        \texttt{A := A - 50} & \texttt{}\\
+        \texttt{write(A)} & \texttt{}\\
+        \texttt{} & \texttt{read(B)}\\
+        \texttt{} & \texttt{B := 5 - 10}\\
+        \texttt{} & \texttt{write(B)}\\
+        \texttt{read(B)} & \texttt{}\\
+        \texttt{B := 5 + 50} & \texttt{}\\
+        \texttt{write(B)} & \texttt{}\\
+        \texttt{} & \texttt{read(A)}\\
+        \texttt{} & \texttt{A := A + 10}\\
+        \texttt{} & \texttt{write(A)}\\
+        \hline
+    \end{tabular}
+\end{center}
+
+\pagebreak
+
+\subsection{Poziomy izolacji transakcji}
+\label{subsec:poziomy_izolacji_transakcji}
+
+\horrule{0.5pt}
+Proszę \underline{omówić} \textbf{poziom izolacji} transakcji wybrany przez
+egzaminatora.\\
+\horrule{0.5pt}
+
+\vskip 1cm
+
+% \begin{table}
+\begin{adjustbox}{width=\columnwidth,center}
+    % \begin{center}
+    \begin{tabular}{|p{3cm}|p{1cm}|p{1cm}|p{2cm}|p{1cm}|p{1.3cm}|p{1.3cm}|}
+        \hline
+        \vskip 0.1cm
+        \textbf{Poziom izolacji} &
+        \textbf{P0 Dirty Write} &
+        \textbf{P1 Dirty Read} &
+        \textbf{P2 \newline Non-repeatable read} &
+        \textbf{P3 Phantoms} &
+        \textbf{Blokady X} &
+        \textbf{Blokady S}\\
+        \hline
+        Locking READ \newline UNCOMMITTED &
+        \cellcolor{red!25} NIE &
+        \cellcolor{green!25} TAK &
+        \cellcolor{green!25} TAK &
+        \cellcolor{green!25} TAK &
+        \cellcolor{yellow!25} TAK, długie &
+        Nie ma\\
+        \hline
+        Locking READ \newline COMMITTED &
+        \cellcolor{red!25} NIE &
+        \cellcolor{red!25} NIE &
+        \cellcolor{green!25} TAK &
+        \cellcolor{green!25} TAK &
+        \cellcolor{yellow!25} TAK, długie &
+        \cellcolor{cyan!15} TAK, krótkie\\
+        \hline
+        Locking REPEATABLE READ &
+        \cellcolor{red!25} NIE &
+        \cellcolor{red!25} NIE &
+        \cellcolor{red!25} NIE &
+        \cellcolor{green!25} TAK &
+        \cellcolor{yellow!25} TAK, długie &
+        \cellcolor{yellow!25} TAK, długie\\
+        \hline
+        Locking \newline SERIALIZABLE &
+        \cellcolor{red!25} NIE &
+        \cellcolor{red!25} NIE &
+        \cellcolor{red!25} NIE &
+        \cellcolor{red!25} NIE &
+        \cellcolor{yellow!25} TAK, długie &
+        \cellcolor{blue!25} TAK, długie, predykatowe\\
+        \hline
+
+    \end{tabular}
+    % \end{center}
+\end{adjustbox}
+% \end{table}
+\vskip 1cm
+
+% \textbf{BLOKADY} \\
+\textbf{CURSOR STABILITY}
+\begin{itemize}
+    \item READ COMMITTED « Cursor Stability « REPEATABLE READ
+    \item Pewne rozszerzenie Locking READ COMMITTED.
+    \item Dodaje sie operacje \texttt{READ\_CURSOR}
+    \textit{(pobierz wiersz)} dla instrukcji \texttt{FETCH}.
+    \item Blokada (\texttt{S} lub nowy typ do odczytu \textit{scroll lock})
+    bedzie utrzymywana do\\ chwili przejścia do innego wiersza lub
+    zamknięcia kursora.
+    \item Aktualizacja wiersza przez kursor - operacja
+    \texttt{WRITE\_CURSOR} powoduje\\ założenie na ten wiersz
+    \textbf{blokady \texttt{X}} utrzymywanej do końca transakcji.
+    \item \textbf{Eliminuje problem P4C}.
+\end{itemize}
+
+\textbf{SNAPSHOT ISOLATION} \textit{(First-commiter-wins)}
+\begin{itemize}
+    \item Transakcja czyta dane (zatwierdzone) z chwili swojego początku,\\
+    \textit{Start-Timestamp}.
+    \item Wszelkie zmiany wykonywane są na lokalnych kopiach i zapisywane
+    na końcu transakcji.
+    \item Aktualizacje wykonywane przez inne transakcje nie są odczytywane.
+    \item Jeśli $T_1$ jest gotowa do zatwierdzenia, otrzymuje
+    \textit{Commit-Timestamp($T_1$)}, większy od wszystkich znaczników
+    \textit{Start-Timestamp} i \textit{Commit-Timestamp}\\
+    rozpoczętych i zakończonych już transakcji.
+    \item Transakcja zostaje zatwierdzona tylko wówczas, jeśli żadna inna
+    $T_2$
+    z czasem zakończenia \textit{Commit-Timestamp($T_2$)} zawartym w
+    przedziale\\
+    \lbrack\textit{Start-Timestamp($T_1$)},~
+    \textit{Commit-Timestamp($T_1$)}\rbrack~~nie zapisała danych,
+    które zapisała również $T_1$.
+    \item W przeciwnym wypadku $T_1$ zostaje wycofana.
+    \item \textbf{\textit{First-commiter-wins} zapobiega lost update (P4).}
+    \item Po zatwierdzeniu $T_1$, zmiany wykonane przez nią są widoczne
+    przez wszystkie inne transakcje o czasie rozpoczecia wiekszym od
+    \textit{Commit-Timestamp} transakcji $T_1$.
+\end{itemize}
+
+\textbf{SNAPSHOT ISOLATION} \textit{(First-writer-wins)}
+\begin{itemize}
+    \item Podobnie jak wcześniej, ale są stosowane
+    \textbf{blokady do zapisu}.
+    \item Przy każdym zapisie transakcja wykonuje podobne sprawdzenie jak
+    \textit{First-commiter-wins} na końcu transakcji.
+    \item Przechowywane są różne wersje danych.
+    \item Transakcja czyta dane zatwierdzone przed początkiem transakcji.
+    \item \textbf{Brak blokad do odczytu}, operacja odczytu nie blokuje
+    zapisu ani innych operacji odczytu.
+    \item \textbf{Długotrwałe blokady wyłącznie do zapisu}.
+    \item $T_1$ przy każdym zapisie sprawdza, czy istnieje $T_2$, która
+    zmodyfikowała dane zapisywane i zakończyła sie powodzeniem.
+    \item Jeśli tak, $T_1$ jest wycofywana.
+    \item W systemie MS SQL Server tak działa poziom SNAPSHOT.
+\end{itemize}
+
+% subsection poziomy_izolacji_transakcji (end)
+\pagebreak
+
+\subsection{Sterowanie współbieżnymi transakcjami w oparciu o blokady}
+\label{sub:sterowanie_wspolbieznymi_blokady}
+
+% subsection sterowanie_współbieżnymi_transakcjami_w_oparciu_o_blokady (end)
+
+\subsection{Sterowanie współbieżnymi transakcjami z wykorzystaniem
+wielowersyjności i blokad} % (fold)
+\label{sub:sterowanie_wspolbieznymi_wielowier}
+
+\horrule{0.5pt}
+Dla przedstawionego harmonogramu proszę podać jak będzie wyglądać sterowanie
+współbieżnością w wybranym przez egzaminatora poziomie izolacji
+transakcji.\\
+\horrule{0.5pt}
+
+\pagebreak
+
+\horrule{0.5pt}
+Proszę \underline{omówić} wybrane przez egzaminatora \textbf{problemy}
+związane ze współbieżnym wykonaniem transakcji.\\
+\horrule{0.5pt}
+
+\textbf{P0 Dirty Write} \textit{(nadpisanie brudnopisu)}
+\begin{itemize}
+    \item Transakcja $T_1$ modyfikuje daną.
+    \item Transakcja $T_2$ dalej modyfikuje daną \textbf{zanim} $T_1$
+    zostanie \textbf{zatwierdzona lub wycofana}.
+    \item \texttt{WRITE\_1[x]}
+    \item \texttt{WRITE\_2[x]}
+    \item (\texttt{COMMIT\_1[x]} lub \texttt{ABORT\_1[x]}) i
+    (\texttt{COMMIT\_2[x]} lub \texttt{ABORT\_2[x]})
+    w dowolnej kolejności.
+\end{itemize}
+
+\textbf{P1 Dirty Read} \textit{(czytanie brudnopisu)}
+\begin{itemize}
+    \item Transakcja $T_1$ modyfikuje daną.
+    \item Transakcja $T_2$ czyta daną \textbf{zanim} $T_1$ zostanie
+    zatwierdzona lub wycofana.
+    \item \textbf{Jeśli} $T_1$ zostaje \textbf{wycofana} $T_2$ przeczytało
+    daną, która nie została zatwierdzona czyli w sumie nigdy nie
+    istniała.
+    \item \texttt{WRITE\_1[x]}
+    \item \texttt{READ\_2[x]}
+    \item (\texttt{COMMIT\_1[x]} lub \texttt{ABORT\_1[x]}) i
+    (\texttt{COMMIT\_2[x]} lub \texttt{ABORT\_2[x]})
+    w dowolnej kolejności.
+\end{itemize}
+
+\textbf{P2 Non-repeatable read}
+\begin{itemize}
+    \item Transakcja $T_1$ czyta daną.
+    \item Transakcja $T_2$ modyfikuje lub usuwa daną oraz zostaje
+    \textbf{zatwierdzona}.
+    \item Jeśli $T_1$ spróbuje znowu przeczytać daną, otrzyma zmodyfikowaną
+    wartość albo odkryje, że dana została skasowana.
+    \item \texttt{READ\_1[x]}
+    \item \texttt{WRITE\_2[x]}
+    \item (\texttt{COMMIT\_1[x]} lub \texttt{ABORT\_1[x]}) i
+    (\texttt{COMMIT\_2[x]} lub \texttt{ABORT\_2[x]})
+    w dowolnej kolejności.
+\end{itemize}
+
+\textbf{P3 Phantoms}
+\begin{itemize}
+    \item Transakcja $T_1$ czyta zestaw danych spełniający jakiś
+    \textit{predykat}.
+    \item Transakcja $T_2$ \textbf{tworzy daną} spełniająca ten
+    \textit{predykat} i zostaje zatwierdzona.
+    \item Jeśli $T_1$ spróbuje znowu przeczytać zestaw danych z tym samym\\
+    \textit{predykat}em otrzyma zestaw danych
+    \textbf{inny od pierwotnego}.
+    \item \texttt{READ\_1[P]}
+    \item \texttt{WRITE\_2[y in P]}
+    \item (\texttt{COMMIT\_1[x]} lub \texttt{ABORT\_1[x]}) i
+    (\texttt{COMMIT\_2[x]} lub \texttt{ABORT\_2[x]})
+    w dowolnej kolejności.
+\end{itemize}
+
+\textbf{P4 Lost Update}
+\begin{itemize}
+    \item Transakcja $T_1$ czyta element danych.
+    \item Transakcja $T_2$ aktualizuje ten element i
+    \textbf{zostaje zatwierdzona}.
+    \item Transakcja $T_1$ aktualizuje ten sam element i
+    \textbf{zostaje zatwierdzona}.
+    \item \texttt{READ\_1[x]}
+    \item \texttt{WRITE\_2[x]}
+    \item \texttt{COMMIT\_2}
+    \item \texttt{WRITE\_1[x]}
+    \item \texttt{COMMIT\_1}
+\end{itemize}
+
+\textbf{P4C Lost Update} \textit{(dla operacji na kursorze)}
+\begin{itemize}
+    \item \texttt{READ\_CURSOR\_1[x]}
+    \item \texttt{WRITE\_2[x]}
+    \item \texttt{COMMIT\_2}
+    \item \texttt{WRITE\_CURSOR\_1[x]}
+    \item \texttt{COMMIT\_1}
+\end{itemize}
+
+\textbf{A5A Read Skew} \textit{(skrzywiony odczyt)}
+\begin{itemize}
+    \item Transakcja $T_1$ odczytuje \texttt{x}.
+    \item Transakcja $T_2$ aktualizuje \texttt{x} oraz \texttt{y} i zostaje
+    \textbf{zatwierdzona}.
+    \item Jeśli $T_1$ odczyta \texttt{y} to będzie miała niespójny obraz
+    danych.
+    \item \texttt{READ\_1[x]}
+    \item \texttt{WRITE\_2[x]}
+    \item \texttt{WRITE\_2[y]}
+    \item \texttt{COMMIT\_2}
+    \item \texttt{READ\_1[y]}
+    \item (\texttt{COMMIT\_1} lub \texttt{ABORT\_1})
+\end{itemize}
+
+
+\textbf{A5B Write Skew} \textit{(skrzywiony zapis)}\\\\
+Załóżmy, że na elementy danych \texttt{x} oraz \texttt{y} narzucono pewne
+ograniczenie \texttt{C()}. Każda transakcja z osobna dba o spełnienie
+\texttt{C()}.
+\begin{itemize}
+    \item Transakcja $T_1$ odczytuje \texttt{x} (ew. też \texttt{y}).
+    \item Transakcja $T_2$ odczytuje \texttt{y} (ew. też \texttt{x}).
+    \item $T_1$ zapisuje \texttt{y} a $T_2$ zapisuje \texttt{x} i
+    \textbf{obydwie zostają zatwierdzone}.
+    \item Ostatnie cztery operacje mogą być zrealizowane w dowolnej
+    (sensownej) kolejności.
+    \item Każda transakcja przy zapisnie dba o spełnienie ograniczenia
+    \texttt{C()}, jednak w wyniku przeplatanego wykonania ograniczenie
+    \texttt{C()} może nie być spełnione po zatwierdzeniu obydwu
+    transakcji.
+    \item \texttt{READ\_1[x]}
+    \item \texttt{READ\_2[y]}
+    \item \texttt{WRITE\_1[y], WRITE\_2[x], COMMIT\_1, COMMIT\_2}
+    w dowolnej\\ sensownej kolejności.
+\end{itemize}
+
+% subsection sterowanie_współbieżnymi_transakcjami (end)
+
+\pagebreak
+
+\subsection{Zakleszczenia} % (fold)
+\label{sub:zakleszczenia}
+
+\horrule{0.5pt}
+Proszę \textbf{napisać przykładowy harmonogram}, który doprowadzi do
+\textbf{zakleszczenia}.
+Jak mogą być wykrywane zakleszczenia?\\
+\horrule{0.5pt}
+
+\begin{center}
+    \begin{tabular}{|p{5cm}|p{5cm}|}
+        \hline
+        \textbf{$T_1$} & \textbf{$T_2$} \\
+        \hline
+        \texttt{read(K)} \textit{(zakłada blokadę S na K)} & \texttt{}\\
+        % \texttt{K = 2 000,00} & \texttt{}\\
+        \texttt{} & \texttt{read(K)} \textit{(zakłada blokadę S na K)}\\
+        % \texttt{} & \texttt{K = 2 000,00}\\
+        % \texttt{wybierz 300,00zł} & \texttt{}\\
+        % \texttt{K := K - 300} \textit{(= 1 700)}& \texttt{}\\
+        \texttt{write(K)} \textit{(żąda blokady X na K)} & \texttt{}\\
+        % \texttt{wait} & \texttt{wybierz 100,00 zł}\\
+        % \texttt{wait} & \texttt{K := K - 100} \textit{(= 1 900)}\\
+        \texttt{wait} & \texttt{write(K)} \textit{(żąda blokady X na K)}\\
+        \texttt{wait} & \texttt{wait}\\
+        \texttt{wait} & \texttt{wait}\\
+        \hline
+    \end{tabular}
+\end{center}
+
+
+\textbf{WYKRYWANIE ZAKLESZCZEŃ}
+\begin{itemize}
+    \item \textbf{GRAF OCZEKIWANIA} \textit{(wait-for graph)}
+    \begin{itemize}
+        \item Każda wykonywana transakcja jest wierzchołkiem w grafie.
+        \item Jeśli transakcja $T_i$ próbuje zablokować element danych,
+        który \textbf{jest już blokowany} przez inną transakcję $T_k$
+        z użyciem \textbf{konflikowej blokady}, w grafie tworzona
+        jest krawędź skierowana z $T_i$ do $T_k$.
+        \item Po zwolnieniu blokady krawędź jest usuwana.
+        \item \textbf{Cykl w grafie oznacza zakleszczenie.}
+        \item Wybór ofiary - na ofiare można wybrać transakcje młodszą, lub
+        tę, która mniej zmodyfikowała (tę, której wycofanie jest
+        prostsze).
+    \end{itemize}
+
+    \item \textbf{LIMITY CZASU} \textit{(timeouts)}
+    \begin{itemize}
+        \item Jeśli transakcja czeka na zasób \textbf{dłużej niż}
+        przyjeta \textbf{wartość progowa}, to system przyjmuje, że
+        uległa zakleszczeniu i \textbf{anuluje ją}, bez wzgledu na to
+        czy zakleszczenie rzeczywiście wystąpiło, czy nie.
+    \end{itemize}
+\end{itemize}
+% subsection zakleszczenia (end)
+
+\pagebreak
+
+\subsection{Kursory, sterowanie współbieżnością w kursorach} % (fold)
+\label{sub:kursory_sterowanie_wspolbieznoscia_w_kursorach}
+
+\horrule{0.5pt}
+Proszę \underline{omówić}, jak wygląda \textbf{sterowanie współbieżnością w
+\underline{kursorach}} w systemie Microsoft SQL Server.\\
+\horrule{0.5pt}
+
+\textbf{OPCJE PRZY OTWIERANIU KURSORA}
+\begin{itemize}
+    \item \texttt{READ\_ONLY}
+    \begin{itemize}
+        \item \textbf{Nie można} wykonywać pozycjonowanych zmian wierszy
+        przez kursor.
+        \begin{minted}{sql}
+UPDATE ... WHERE CURRENT OF CursorName
+        \end{minted}
+
+        \item Blokady \textbf{nie są zakładane}.
+    \end{itemize}
+
+    \item \texttt{SCROLL LOCKS}
+    \begin{itemize}
+        \item Kursor jest otwarty w transakcji \textbf{jawnej}:
+        \begin{itemize}
+            \item Zakładne długotrwałe blokady \texttt{U} \textit{(update)}
+            i blokady kursora \textit{(scroll locks)}.
+            \item Blokady są zwalniane w momencie przejścia do innego
+            wiersza.
+        \end{itemize}
+
+        \item Kursor jest otwarty \textbf{poza transakcją}:
+        \begin{itemize}
+            \item Zakładne są tylko blokady kursora.
+        \end{itemize}
+
+        \item Niewłączona opcja \textbf{automatycznego zamykania} kursorów
+        na końcu transakcji może sprawić, że
+        \textbf{blokady są trzymane} nadal po zakończeniu transakcji.
+
+        \begin{minted}{sql}
+SET CURSOR_CLOSE_ON_COMMIT ON
+ALTER DATABASE SET CURSOR_CLOSE_ON_COMMIT
+        \end{minted}
+    \end{itemize}
+
+    \item \texttt{OPTIMISTIC (WITH VALUES)}
+    \begin{itemize}
+        \item Przy \textbf{odczycie} wiersza \textbf{nie są zakładane}
+        blokady.
+        \item Przy próbie modyfikacji wiersza nastepuje
+        \textbf{sprawdzenie, czy inna\\ transkacja tego nie zrobiła}
+        \textit{(już po odczycie
+        przez kursor, ale przed próbą modyfikacji)}.
+        \item Wiersz wczytywany jest jeszcze raz i \textbf{porównywane są
+        wartości} w kolumnach.
+        \item Jeśli sie \textbf{nie zmieniły}, to aktualizacja nastepuje,
+        jeśli nie, zgłaszany jest \textbf{błąd}.
+    \end{itemize}
+
+    \pagebreak
+    \item \texttt{OPTIMISTIC (WITH ROW VERSIONING)}
+    \begin{itemize}
+        \item Podobnie, ale w tabeliu musi być kolumna typu
+        \texttt{rowversion}\\
+        \textit{(w MSSQL 2000 i 2005 timestamp)}.
+        \item Wartość w takiej kolumnie jest zawsze automatycznie
+        modyfikowana przy modyfikacji wiersza, nawet jeśli jest to
+        modyfikacja typu \texttt{pole1 = pole1}.
+    \end{itemize}
+
+\end{itemize}

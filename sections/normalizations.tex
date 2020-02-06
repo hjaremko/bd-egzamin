@@ -1,0 +1,386 @@
+\section{Architektury systemów baz danych}
+\label{sec:architektury_systemow}
+
+\section{Relacyjny model danych, normalizacja relacji}
+\label{sec:relacyjny_model_danych_normalizacja_relacji}
+
+\horrule{0.5pt}
+Proszę \underline{podać przykład} tabeli (relacji), która \textbf{jest w
+trzeciej} postaci normalnej, ale \textbf{nie jest} w postaci normalnej
+\textbf{Boyce’a Codd’a}.\\
+\horrule{0.5pt}\\
+
+Relacja \texttt{\{Miasto, Ulica, Kod\}}\\
+Klucze:
+\begin{enumerate}
+    \item \texttt{\{Miasto, Ulica\}}
+    \item \texttt{\{Ulica, Kod\}}
+\end{enumerate}
+
+Dodatkowe zależności:
+\begin{enumerate}
+    \item \texttt{ \{Kod\} --> \{Miasto\}}\\
+\end{enumerate}
+
+\begin{tcolorbox}
+    \textbf{Tylko 3NF} - \texttt{Kod} nie jest nadkluczem.
+\end{tcolorbox}
+
+% \pagebreak
+
+\horrule{0.5pt}
+Dla tabeli (relacji) z podanymi zależnościami funkcyjnymi \underline{proszę
+powiedzieć} w której \textbf{postaci normalnej} jest ta tabela.\\
+\horrule{0.5pt}\\
+
+Relacja \texttt{\{CustomerID, Firstname, Surname, Telephone\}}\\
+Klucze: \texttt{\{CustomerID, Telephone\}}\\
+Dodatkowe zależności:
+\begin{enumerate}
+    \item \texttt{ \{CustomerID\} --> \{Firstname, Surname\}}
+    \item \texttt{ \{Telephone\} --> \{CustomerID\}}
+\end{enumerate}
+
+\begin{tcolorbox}
+    \textbf{Tylko 1NF} - Częściowa funkcyjna zależność atrybutu wtórnego od
+    podzbioru właściwego klucza w zależności nr 2.
+\end{tcolorbox}
+
+\pagebreak
+
+Relacja \texttt{\{Tournament, Year, Winner, Winner Date of Birth\}}\\
+Klucze: \texttt{\{Tournament, Year\}}\\
+Dodatkowe zależności:
+\begin{enumerate}
+    \item \texttt{ \{Winner\} --> \{Winner Date of Birth\}}
+\end{enumerate}
+
+\begin{tcolorbox}
+    \textbf{Tylko 2NF} - Atrybut niekluczowy funkcyjnie zależny od innego
+    atrybutu niekluczowego.
+\end{tcolorbox}
+
+\vskip 0.5cm
+Relacja \texttt{\{PESEL, NrPłyty, Od, Do, NrDowodu\}}\\
+Klucze:
+\begin{enumerate}
+    \item \texttt{\{PESEL, NrPłyty, Od\}}
+    \item \texttt{\{NrDowodu, NrPłyty, Od\}}
+\end{enumerate}
+
+Dodatkowe zależności:
+\begin{enumerate}
+    \item \texttt{ \{NrDowodu\} --> \{PESEL\}}
+\end{enumerate}
+
+\begin{tcolorbox}
+    \textbf{Tylko 3NF} - Lewa strona zależności nr 1 nie jest nadkluczem.
+\end{tcolorbox}
+
+\vskip 0.5cm
+Relacja \texttt{\{Restaurant, Pizza Type, Delivery Area\}}\\
+Klucze: \texttt{\{Restaurant, Pizza Type, Delivery Area\}}
+
+Dodatkowe zależności:
+\begin{enumerate}
+    \item \texttt{ \{Restaurant\} ->> \{Pizza Type\}}
+    \item \texttt{ \{Restaurant\} ->> \{Delivery Area\}}
+\end{enumerate}
+
+\begin{tcolorbox}
+    \textbf{Tylko BCNF} - Jeśli założymy, że wszystkie typy pic są dowożone na
+    każdy obszar to występują nietrywialne zależności wielowartościowe, których
+    lewa strona nie zawiera klucza.
+\end{tcolorbox}
+
+\pagebreak
+
+\horrule{0.5pt}
+Podaną tabelę należy doprowadzić do
+\textbf{postaci normalnej Boyce’a Codd’a}.\\
+\horrule{0.5pt}
+
+\vskip 0.5cm
+
+\textbf{PRZYKŁAD 1.}
+
+\vskip 0.5cm
+
+\begin{adjustbox}{width=\columnwidth,center}
+    % \begin{center}
+    \begin{tabular}{|l|l|l|l|l|l|}
+        \hline
+        \textbf{Tytuł} &
+        \textbf{Rok} &
+        \textbf{Długość} &
+        \textbf{TypFilmu} &
+        \textbf{NazwaStudia} &
+        \textbf{AdresStudia}\\
+        \hline
+        Gwiezdne Wojny &
+        1977 &
+        124 &
+        kolor &
+        Fox &
+        Hollywood \\
+        \hline
+        Poteżne Kaczory &
+        1991 &
+        104 &
+        kolor &
+        Disney &
+        Buena Vista \\
+        \hline
+        Świat Wayna &
+        1992 &
+        95 &
+        kolor &
+        Paramount &
+        Hollywood \\
+        \hline
+        Rodzina Adamsów &
+        1991 &
+        102 &
+        kolor &
+        Paramount &
+        Hollywood \\
+        \hline
+    \end{tabular}
+    % \end{center}
+\end{adjustbox}
+
+\vskip 0.5cm
+
+\textbf{Klucz:} \texttt{\{Tytuł, Rok\}}\\
+\textbf{Zależność funkcyjna:} \texttt{\{NazwaStudia\} --> \{AdresStudia\}}\\
+
+\textbf{Dekomponujemy schemat na dwa zbiory:}\\
+\texttt{\{\underline{NazwaStudia}, AdresStudia\}}\\
+\texttt{\{NazwaStudia, \underline{Tytuł, Rok}, Długość, TypFilmu\}}\\
+
+\vskip 0.5cm
+
+\textbf{PRZYKŁAD 2.}
+
+\vskip 0.5cm
+
+% \begin{adjustbox}{width=\columnwidth,center}
+\begin{center}
+    \begin{tabular}{|l|l|l|}
+        \hline
+        \textbf{Person} &
+        \textbf{Shop Type} &
+        \textbf{Nearest Shop}\\
+        \hline
+        Davidson & Optician & Eagle Eye \\
+        \hline
+        Davidson & Hairdresser & Snippets \\
+        \hline
+        Wright & Bookshop & Merlin Books \\
+        \hline
+        Fuller & Bakery & Doughy's \\
+        \hline
+        Fuller & Hairdresser & Sweeney Todd's \\
+        \hline
+        Fuller & Optician & Eagle Eye \\
+        \hline
+    \end{tabular}
+\end{center}
+% \end{adjustbox}
+
+\vskip 0.5cm
+
+\textbf{Klucze:} \texttt{\{Person, Shop Type\}; \{Person, Nearest Shop\}}\\
+\textbf{Zależność funkcyjna:} \texttt{\{Nearest Shop\} --> \{Shop Type\}}\\
+
+\textbf{Dekomponujemy schemat na dwa zbiory:}\\
+\texttt{\{\underline{Nearest Shop}, Shop Type\}}\\
+\texttt{\{\underline{Nearest Shop, Person}\}}\\
+
+\pagebreak
+
+\horrule{0.5pt}
+Proszę \underline{podać przykład} uzasadniający \textbf{denormalizację}.\\
+\horrule{0.5pt}\\
+
+\texttt{\textbf{Adresy:}\\
+\{\textbf{{\color{green}\faKey}NrPracownika}, Ulica, Miasto,
+Województwo, KodPocztowy\}}\\
+
+Zakładamy nastepujące zależności funkcyjne:
+\begin{enumerate}
+    \item \texttt{\{Ulica, Miasto, Województwo\} --> \{KodPocztowy\}}
+    \item \texttt{\{KodPocztowy\} --> \{Miasto, Województwo\}}
+\end{enumerate}
+
+Relacja \texttt{Adresy} jest w 2NF, ale nie jest w 3NF.\\
+
+\textbf{Rozwiązanie 1} (wynikające z zależności funkcyjnej 1.)\\
+
+\texttt{\{{\color{green}\faKey}{\color{blue}\faKey}Ulica,
+{\color{green}\faKey}Miasto, {\color{green}\faKey}Województwo,
+{\color{blue}\faKey}KodPocztowy\}} (*)\\
+\texttt{\{{\color{green}\faKey}NrPracownika, Ulica, Miasto, Województwo\}}
+(**)\\
+
+Relacja (*) jest w 3NF, ale nie jest BCNF.\\
+Relacja (**) jest w BCNF.\\
+
+Zostały zachowane zależności funkcyjne, ale jest redundancja.\\
+Tabele bedą \underline{łączone ze sobą aż przez \textbf{trzy} pola}
+(klucz obcy złożony).\\
+Można tego uniknąć poprzez dodanie atrybutu \texttt{ IdAdresu } do
+relacji (*) z zależnością funkcyjną \texttt{\{IdAdresu\} --> \{Ulica,
+Miasto, Województwo\}} oraz wstawienie \texttt{ IdAdresu } zamiast
+\texttt{\{Ulica, Miasto, Województwo\}} w relacji (*). Mielibyśmy:\\
+
+\texttt{\{{\color{red}\faKey}IdAdresu,
+{\color{green}\faKey}{\color{blue}\faKey}Ulica,
+{\color{green}\faKey}Miasto, {\color{green}\faKey}Województwo,
+{\color{green}\faKey}KodPocztowy\}}
+\textit{(tylko 3NF)}\\
+\texttt{\{{\color{green}\faKey}NrPracownika, IdAdresu\}} \textit{(BCNF)}\\
+
+Wróćmy jednak do rozwiązania bez \texttt{IdAdresu}. W pierwszej relacji jest
+redundancja. Można dekomponować pierwszą relacje na dwie, doprowadzają do
+BCNF:\\
+\texttt{\{Miasto, Województwo, {\color{blue}\faKey}KodPocztowy\}} oraz\\
+\texttt{\{{\color{green}\faKey}Ulica, {\color{green}\faKey}KodPocztowy\}}\\
+
+Ostatecznie otrzymamy trzy relacje:\\
+\texttt{\{Miasto, Województwo, {\color{blue}\faKey}KodPocztowy\}}\\
+\texttt{\{{\color{green}\faKey}Ulica, {\color{green}\faKey}KodPocztowy\}}\\
+\texttt{\{{\color{green}\faKey}NrPracownika, Ulica, Miasto, Województwo\}}\\
+
+\textbf{"Zgubiliśmy" zależność funkcyjną nr 1}. Ponadto uzyskanie kodu
+pocztowego\\ pracownika \underline{wymaga złączenia trzech tabel}.\\
+
+W przypadku wersji z atrybutem \texttt{ IdAdresu } otrzymalibyśmy:
+
+\texttt{\{Miasto, Województwo, {\color{blue}\faKey}KodPocztowy\}}\\
+\texttt{\{{\color{red}\faKey}IdAdresu, {\color{blue}\faKey}Ulica,
+{\color{blue}\faKey}KodPocztowy\}}\\
+\texttt{\{{\color{green}\faKey}NrPracownika, IdAdresu\}}\\
+
+\textbf{"Zgubiliśmy" zależność funkcyjną nr 1}. Uzyskanie miasta i województwa
+pracownika \underline{wymaga złączenia trzech tabel}.\\
+
+\textbf{Rozwiązanie 2} (wynikające z zależności funkcyjnej 1.)\\
+
+\texttt{\{{\color{green}\faKey}KodPocztowy, Miasto, Województwo\}}\\
+\texttt{\{{\color{green}\faKey}NrPracownika, Ulica, KodPocztowy\}}\\
+
+Obie relacje są w BCNF.\\
+Obydwie wcześniej przedstawione \textbf{zależności funkcyjne zostały
+"zgubione"}.
+Połączenie miedzy tabelami bedzie realizowane przez jedno pole.\\\\
+
+Obydwa rozwiązania mają swoje wady i zalety. Zalety i wady ma również
+wyjściowa relacja \texttt{Adresy} (chociaż jest tylko w 2NF, nie jest w
+3NF).
+
+\pagebreak
+
+\horrule{0.5pt}
+Proszę \underline{podać przykład} tabeli, która jest w postaci normalnej
+\textbf{Boyce’a Codd’a}, a w której jest \textbf{redundancja}.\\
+\horrule{0.5pt}
+
+\vskip 0.5cm
+
+% \begin{adjustbox}{width=\columnwidth,center}
+\begin{center}
+    \begin{tabular}{|l|l|l|}
+        \hline
+        \textbf{Nr Pracownika} &
+        \textbf{Język Programowania} &
+        \textbf{Język Obcy}\\
+        \hline
+        1 & C & niemiecki \\
+        \hline
+        1 & Java & angielski \\
+        \hline
+        2 & C & francuski \\
+        \hline
+        2 & Java & niemiecki \\
+        \hline
+        2 & & hiszpański \\
+        \hline
+    \end{tabular}
+\end{center}
+% \end{adjustbox}
+
+\vskip 0.5cm
+
+\textbf{Klucz:}\texttt{\{Nr Pracownika, Język Programowania, Język Obcy\}}\\
+\textbf{Zależności:}
+\begin{enumerate}
+    \item \texttt{\{Nr Pracownika\} ->> \{Język Programowania\}}
+    \item \texttt{\{Nr Pracownika\} ->> \{Język Obcy\}}
+\end{enumerate}
+
+\begin{tcolorbox}
+    \textbf{Tylko BCNF} - Występują zależności wielowartościowe, których lewa
+    strona nie zawiera klucza.
+\end{tcolorbox}
+
+% \pagebreak
+
+\horrule{0.5pt}
+Proszę \underline{podać przykład} tabeli, która jest w \textbf{5NF},
+ale jest w niej \textbf{redundancja}.\\
+\horrule{0.5pt}
+
+\vskip 0.5cm
+
+% \begin{adjustbox}{width=\columnwidth,center}
+\begin{center}
+    \begin{tabular}{|l|l|l|}
+        \hline
+        \textbf{Producent} &
+        \textbf{Wyrób} &
+        \textbf{Część}\\
+        \hline
+        1 & 1 & 1 \\
+        \hline
+        1 & 2 & 1 \\
+        \hline
+    \end{tabular}
+\end{center}
+% \end{adjustbox}
+
+\vskip 0.5cm
+
+\textbf{Klucz:} \texttt{\{Producent, Wyrób, Część\}}\\
+
+\begin{tcolorbox}
+    \textbf{5CNF} - Zakładamy, że \texttt{Producent} może produkować daną część
+    tylko do jednego wyrobu, nawet jeśli mogłaby być użyta w innym. Zatem
+    \textbf{brak zależności wielowartościowych oraz klucz obejmuje wszystkie
+    atrybuty} a wciąż jest redundancja (powtarzamy, że \texttt{Producent} 1
+    produkuje \texttt{Część} 1).
+\end{tcolorbox}
+
+\pagebreak
+
+\horrule{0.5pt}
+Proszę \underline{przedstawić} algorytm doprowadzenia relacji do
+\textbf{postaci normalnej Boyce’a Codd’a}.\\
+\horrule{0.5pt}
+
+\begin{itemize}
+    \item Szukamy wszystkich \underline{nietrywialnych, pełnych zależności
+    funkcyjnych}, które naruszają warunek BCNF, tzn.
+    \textbf{lewa strona} zalezności funkcyjnej
+    \textbf{nie jest nadkluczem}.
+    \item Bierzemy jedną z takich zależności funkcyjnych $A \rightarrow B$
+    (obojetnie którą, algorym jest niederministyczny).
+    \item Dzielimy schemat relacji na dwa nierozłączne podzbiory:
+    jeden zawierający wszystkie atrybuty wystepujące w zależności (*)
+    naruszającej BCNF,
+    drugi zawierający atrybuty z lewej strony rozważanej zależności
+    (*) oraz atrybuty nie wystąpujące ani z lewej ani z prawej strony
+    tej zależności.
+    \item Strategie stosujemy do relacji powstałych w wyniku dekompozycji
+    do chwili, gdy wszystkie relacje są w BCNF.
+\end{itemize}

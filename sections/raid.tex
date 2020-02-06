@@ -1,0 +1,394 @@
+\section{Budowa fizyczna baz danych - macierze RAID}
+\label{sec:budowa_fizyczna_baz_danych_macierze_raid}
+
+\horrule{0.5pt}
+Proszę \underline{omówić} macierze \textbf{RAID} \textit{(wybrany przez
+egzaminatora poziom)}.\\
+\horrule{0.5pt}
+
+\textbf{RAID 0}
+\begin{itemize}
+    \item Dane umieszczane są równomierne na dwóch lub więcej dyskach.
+    \item Jeden dysk: \texttt{B1, B2, B3, B4, B5, B6, B7, B8, ...}
+    \item Cztery dyski (RAID 0) - przykład.
+
+        \begin{center}
+        \begin{tabular}{cccc}
+            \begin{minipage}{2cm}
+
+            \begin{center}
+                \begin{tabular}{|c|}
+                  \hline
+                  \texttt{B1} \\
+                  \hline
+                  \texttt{B5} \\
+                  \hline
+                  \texttt{...} \\
+                  \hline
+                \end{tabular}
+            \end{center}
+
+            \end{minipage} &
+            \begin{minipage}{2cm}
+
+            \begin{center}
+                \begin{tabular}{|c|}
+                  \hline
+                  \texttt{B2} \\
+                  \hline
+                  \texttt{B6} \\
+                  \hline
+                  \texttt{...} \\
+                  \hline
+                \end{tabular}
+            \end{center}
+
+            \end{minipage} &
+            \begin{minipage}{2cm}
+
+            \begin{center}
+                \begin{tabular}{|c|}
+                  \hline
+                  \texttt{B3} \\
+                  \hline
+                  \texttt{B7} \\
+                  \hline
+                  \texttt{...} \\
+                  \hline
+                \end{tabular}
+            \end{center}
+
+            \end{minipage} &
+            \begin{minipage}{2cm}
+
+            \begin{center}
+                \begin{tabular}{|c|}
+                  \hline
+                  \texttt{B4} \\
+                  \hline
+                  \texttt{B8} \\
+                  \hline
+                  \texttt{...} \\
+                  \hline
+                \end{tabular}
+            \end{center}
+
+            \end{minipage}
+        \end{tabular}
+        \end{center}
+
+    \item \textbf{ZALETY}
+    \begin{itemize}
+        \item \textbf{Szybszy odczyt i zapis} w porównaniu z pojedynczym
+              dyskiem dzięki operacjom równoległym.
+        \item Był używany do połączenia dwóch lub więcej mniejszych dysków
+              w jeden większy logiczny dysk.
+    \end{itemize}
+
+    \item \textbf{WADY}
+    \begin{itemize}
+        \item \textbf{Brak odporności na błedy} - nie ma nadmiarowości!
+        \item Niezawodność jest odwrotnie proporcjonalna do liczby dysków
+              w systemie RAID 0.\\
+              Niezawodność dwóch dysków jest połowę mniejsza od
+              niezawodności jednego dysku.
+        \item RAID 0 nie jest polecany w środowiskach podwyższonej
+              odporności na błędy \textit{(mission-critical environments)}.
+    \end{itemize}
+
+\end{itemize}
+
+\pagebreak
+
+\textbf{RAID 1}
+\begin{itemize}
+    \item \textit{Mirroring} lub \textit{duplexing} (gdy każdy dysk ma
+          osobny kontroler).
+    \item Na ogół zawiera dwa dyski, czasem wiecej.
+    \item Obydwa dyski mają taką samą zawartość.
+
+        \begin{center}
+        \begin{tabular}{cc}
+            \begin{minipage}{2cm}
+
+            \begin{center}
+                \begin{tabular}{|c|}
+                  \hline
+                  \texttt{B1} \\
+                  \hline
+                  \texttt{B2} \\
+                  \hline
+                  \texttt{...} \\
+                  \hline
+                \end{tabular}
+            \end{center}
+
+            \end{minipage} &
+            \begin{minipage}{2cm}
+
+            \begin{center}
+                \begin{tabular}{|c|}
+                  \hline
+                  \texttt{B1} \\
+                  \hline
+                  \texttt{B2} \\
+                  \hline
+                  \texttt{...} \\
+                  \hline
+                \end{tabular}
+            \end{center}
+
+            \end{minipage}
+        \end{tabular}
+        \end{center}
+
+    \item \textbf{ZALETY}
+    \begin{itemize}
+        \item \textbf{Odczyt} jest prawie dwukrotnie \textbf{szybszy} w
+              porównaniu z pojedynczym dyskiem.
+        \item \textbf{Odporny na awarie} - $N$ dysków może przetrwać
+              jednoczesną awarię $N - 1$ dysków.
+    \end{itemize}
+
+    \item \textbf{WADY}
+    \begin{itemize}
+        \item \textbf{Wolniejszy zapis} w porównaniu z pojedynczym
+              dyskiem.\\
+              Dane muszą być zapisane na obydwu dyskach, a na początku
+              operacji głowice są na ogół nad innymi ścieżkami i sektorami.
+        \item Pamieć podręczna powinna być włączona w celu przyśpieszenia
+              operacji zapisu.
+        \item Używa efektywnie jedynie 50\% całkowitej pojemności.
+    \end{itemize}
+
+    \item \textbf{TYPOWE ZASTOSOWANIE}
+    \begin{itemize}
+        \item \textbf{Dziennik transakcji}.
+        \item \textbf{System operacyjny}.
+        \item Dziennik transakcji jest zapisywany sekwencyjnie, najlepiej
+              stosować jeden system RAID 1 dla każdego dziennika.
+        \item Dziennik jest jednym z najważniejszych komponentów systemu
+              baz danych, dlatego dysk z dziennikiem powinien być odporny
+              na awarie.
+    \end{itemize}
+
+\end{itemize}
+
+\pagebreak
+
+\textbf{RAID 5}
+\begin{itemize}
+    \item Zawiera \textbf{trzy} lub więcej dysków.
+    \item Zapisy są wykonywane blokami na wielu dyskach z wykorzystaniem
+          bloków parzystości.
+    \item Bloki mogą być wieksze niż sektory (np. 256 sektorów).
+\end{itemize}
+
+        \begin{center}
+        \begin{tabular}{cccc}
+            \begin{minipage}{2.6cm}
+
+            \begin{center}
+                \begin{tabular}{|c|}
+                  \hline
+                  \texttt{B1} \\
+                  \hline
+                  \texttt{B5} \\
+                  \hline
+                  \texttt{B8} \\
+                  \hline
+                  Parity {11,12,13} \\
+                  \hline
+                \end{tabular}
+            \end{center}
+
+            \end{minipage} &
+            \begin{minipage}{2.5cm}
+
+            \begin{center}
+                \begin{tabular}{|c|}
+                  \hline
+                  \texttt{B2} \\
+                  \hline
+                  \texttt{B6} \\
+                  \hline
+                  Parity {8,9,10} \\
+                  \hline
+                  \texttt{B11} \\
+                  \hline
+                \end{tabular}
+            \end{center}
+
+            \end{minipage} &
+            \begin{minipage}{2.5cm}
+
+            \begin{center}
+                \begin{tabular}{|c|}
+                  \hline
+                  \texttt{B3} \\
+                  \hline
+                  Parity {5,6,7} \\
+                  \hline
+                  \texttt{B9} \\
+                  \hline
+                  \texttt{B12} \\
+                  \hline
+                \end{tabular}
+            \end{center}
+
+            \end{minipage} &
+            \begin{minipage}{2.5cm}
+
+            \begin{center}
+                \begin{tabular}{|c|}
+                  \hline
+                  {Parity 1, 2, 3} \\
+                  \hline
+                  \texttt{B7} \\
+                  \hline
+                  \texttt{B10} \\
+                  \hline
+                  \texttt{B13} \\
+                  \hline
+                \end{tabular}
+            \end{center}
+
+            \end{minipage}
+        \end{tabular}
+        \end{center}
+
+\begin{itemize}
+    \item \textbf{ZALETY}
+    \begin{itemize}
+        \item \textbf{Szybki odczyt}.
+        \item Względnie efektywne wykorzystanie przestrzeni dyskowej.
+        \item \textbf{Odporność na błedy}.
+        \begin{itemize}
+            \item Bloki parzystości są odczytywane jeśli przy odczycie
+                  wykryty jest błąd sumy kontrolnej \textit{(CRC error)}.
+            \item W takim przypadku pozostałe bloki z paska są automatycznie
+                  \\użyte do odtworzenia informacji w bloku uszkodzonym.
+            \item Podobnie dzieje się przy uszkodzeniu całego dysku.
+            \item Komputer może być "nieświadomy" awarii dysku.\\
+                  System RAID pracuje, chociaż nieco wolniej.
+        \end{itemize}
+    \end{itemize}
+
+    \item \textbf{WADY}
+    \begin{itemize}
+        \item \textbf{Wolne operacje zapisu.}
+        \begin{itemize}
+            \item Jeśli blok ma być zapisany, system musi wykonać dwa
+                  odczyty i dwa zapisy zamiast jednego zapisu.
+            \item Zmieniany blok i odpowiedni blok parzystości musi być
+                  odczytany, trzeba zapisać nową wartość w bloku
+                  parzystości.
+            \item Wystarczy znać różnice między starą i nową wartością
+                  zmienianego bloku i starą wartość bloku parzystości.
+            \item Na końcu nowy blok i zmieniony blok parzystości muszą
+                  być zapisane na dysk.
+        \end{itemize}
+        \item Należy włączyć pamięć podręczną jeśli jest podtrzymywanie
+              bateryjne. Operacje zapisu mogą być wówczas przyśpieszone.
+        \item Wykorzystuje $\frac{1}{n}$ pojemności dysku na bloki
+              parzystości, gdzie $n$ oznacza liczbę dysków w systemie.
+    \end{itemize}
+
+    \item \textbf{TYPOWE ZASTOSOWANIE}
+    \begin{itemize}
+        \item Systemy, w których
+              \textbf{większość operacji to operacje odczytu}.
+        \item \textbf{Tablice lub indeksy}, które są tylko do odczytu lub
+              są rzadko modyfikowane.
+        \item RAID 5 nie jest na ogół dobrym rozwiązaniem, jeśli więcej niż
+              10 procent operacji to operacje zapisu.\\
+              Należy jednak znać wydajność systemu po włączeniu buforowania.
+    \end{itemize}
+\end{itemize}
+
+\textbf{RAID 10 (1+0)}
+\begin{itemize}
+    \item Poziomy RAID mogą być zagnieżdżane.\\
+          Jeden system RAID może użyć innego systemu RAID jako elementu
+          składowego zamiast pojedynczego dysku.
+    \item RAID 10 jest systemem z przeplotem z systemami RAID 1 jako
+          elementami składowymi \textit{(a stripe of mirrors)}.
+    % \item \textbf{Jeden dysk z każdego systemu} RAID 1 może ulec awarii
+    \item $N - 1$ \textbf{z każdego systemu} RAID 1 może ulec awarii
+          bez całkowitej utraty danych.
+\end{itemize}
+
+\begin{center}
+\begin{tikzpicture}
+\Tree
+[.RAID~0
+    [.RAID~1
+        [.500~GB ]
+        [.500~GB ]
+    ]
+    [.RAID~1
+        [.500~GB ]
+        [.500~GB ]
+    ]
+    [.RAID~1
+        [.500~GB ]
+        [.500~GB ]
+    ]
+]
+\end{tikzpicture}
+\end{center}
+
+\begin{itemize}
+    \item Ten system może przetwać równoczesną awarię \textbf{do trzech}
+          dysków.\\
+
+    \item \textbf{CECHY}
+    \begin{itemize}
+        \item \textbf{Najszybszy zapis i odczyt}.
+        \item Odporność na błędy.
+        \item Wykorzystuje efektywnie 50\% pojemności całkowitej.
+        \item Najlepszy, ale najdroższy.
+        \item Polecany w systemach baz danych, gdy
+              \textbf{liczba operacji zapisu}
+              jest \\większa niż 10\% liczby wszystkich operacji.
+    \end{itemize}
+\end{itemize}
+
+\textbf{RAID 01 (0+1)}
+\begin{itemize}
+    \item Różnice między RAID 0+1 i RAID 1+0 stanowi położenie każdego z
+          systemów RAID.
+    \item Jest uważany za \textbf{gorszy niż RAID 10}.
+    \item \textbf{Nie przetrwa dwóch równoczensnych awarii}
+          jeśli nie są to dyski z tego samego układu RAID.
+    \item Po awarii jednego dysku, wszystkie dyski w drugim pasku stanowią
+          krytyczne punkty. Połowa dysków przestaje być wykorzystywana.\\
+          W systemie RAID 10 jeśli uszkodzeniu ulegnie jeden dysk, tylko
+          jeden staje się krytycznym punktem układu.
+\end{itemize}
+
+\begin{center}
+\begin{tikzpicture}
+\Tree
+[.RAID~1
+    [.RAID~0
+        [.500~GB ]
+        [.500~GB ]
+        [.500~GB ]
+    ]
+    [.RAID~0
+        [.500~GB ]
+        [.500~GB ]
+        [.500~GB ]
+    ]
+]
+\end{tikzpicture}
+\end{center}
+
+\textbf{WAŻNE UWAGI}
+\begin{itemize}
+    \item RAID nie powinien zastąpić odpowiedniej strategii robienia kopii
+          zapasowych.
+    \item Administrator musi wykonywać okresowo kopie zapasowe (pełne,
+          różnicowe, plików, dziennika transakcji).
+\end{itemize}

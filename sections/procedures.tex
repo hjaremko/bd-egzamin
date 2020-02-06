@@ -1,0 +1,69 @@
+\section{Procedury, funkcje i wyzwalacze}
+\label{sec:procedury_funkcje_i_wyzwalacze}
+
+\horrule{0.5pt}
+Proszę \underline{napisać} \textbf{procedurę} w języku Transact SQL,
+funkcjonalność procedury poda egzaminator.\\
+\horrule{0.5pt}
+
+\begin{minted}{sql}
+CREATE PROCEDURE ProcName (@Arg TYPE, @OutArg TYPE OUTPUT)
+AS
+BEGIN
+    ...
+END
+\end{minted}
+
+\horrule{0.5pt}
+Proszę \underline{napisać} \textbf{funkcję skalarną} w języku Transact SQL,
+opisaną przez egzaminatora.\\
+\horrule{0.5pt}
+
+\begin{minted}{sql}
+CREATE FUNCTION FuncName (@Arg TYPE, @OutArg TYPE OUTPUT)
+RETURNS TYPE
+AS
+BEGIN
+    ...
+END
+\end{minted}
+
+\horrule{0.5pt}
+Proszę \underline{napisać} w języku Transact SQL opisaną przez egzaminatora
+\textbf{funkcję} zwracającą zestaw rekordów.\\
+\horrule{0.5pt}
+
+\begin{minted}{sql}
+CREATE FUNCTION ProcName (@Arg TYPE, @OutArg TYPE OUTPUT)
+RETURNS @TableName TABLE (
+    ColumnName1 TYPE,
+    ColumnName2 TYPE
+)
+AS
+BEGIN
+    ...
+END
+---------------------------------------------------------
+CREATE FUNCTION ProcName (@Arg TYPE, @OutArg TYPE OUTPUT)
+RETURNS TABLE
+AS
+BEGIN
+    RETURN (SELECT ...)
+END
+\end{minted}
+
+\horrule{0.5pt}
+Proszę \underline{napisać} w języku Transact SQL \textbf{wyzwalacz}, który
+zrealizuje zadaną przez egzaminatora funkcjonalność.\\
+\horrule{0.5pt}
+
+\begin{minted}{sql}
+CREATE TRIGGER TriggerName
+ON TableName
+AFTER INSERT, UPDATE, DELETE
+--INSTEAD OF
+AS
+BEGIN
+    ...
+END
+\end{minted}
