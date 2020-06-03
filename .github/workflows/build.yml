@@ -1,0 +1,51 @@
+name: Build
+
+on: [push]
+
+jobs:
+  build:
+    name: Build document
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Chceckout code
+        uses: actions/checkout@v2
+      - name: Install texlive extra utils and Font Awesome
+        run: |
+          sudo apt-get install texlive-fonts-recommended texlive-extra-utils
+          sudo updmap-sys
+      - name: Compile main document
+        uses: xu-cheng/latex-action@v2
+        with:
+          working_directory: src
+          root_file: bd.tex
+          args: -xelatex -shell-escape
+      - name: Create booklet
+        run: |
+          cd src
+          pdfbook --short-edge bd.pdf
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: bd-egzamin
+          path: ./src/*.pdf
+
+  release:
+    name: Publish documents
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Chceckout code
+        uses: actions/checkout@v2
+      - name: Download artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: bd-egzamin
+      - name: Create release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "./*.pdf"
+          token: ${{ secrets.GITHUB_TOKEN }}
+          draft: true

@@ -21,7 +21,7 @@
 \RequirePackage{adjustbox}
 \RequirePackage{minted}
 \RequirePackage{fontspec}
-\RequirePackage{fontawesome}
+\RequirePackage{fontawesome5}
 \RequirePackage{newpxmath}
 \RequirePackage{graphicx}
 
@@ -30,7 +30,7 @@
 %\setmainfont[Color=primary, Path = fonts/lato/,
 \setmainfont[Path = fonts/lato/,
 BoldItalicFont=Lato-RegIta,BoldFont=Lato-Reg,ItalicFont=Lato-LigIta]{Lato-Lig}
-\setmonofont[Scale=0.8]{Fira Code}
+\setmonofont[Scale = 0.8, Path = fonts/fira/]{FiraCode-Medium}
 
 \newgeometry{tmargin=2cm, bmargin=2cm, lmargin=1.5cm, rmargin=1.5cm}
 

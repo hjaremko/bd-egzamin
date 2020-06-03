@@ -215,7 +215,7 @@ Zakładamy nastepujące zależności funkcyjne:
 
 Relacja \texttt{Adresy} jest w 2NF, ale nie jest w 3NF.\\
 
-\textbf{Rozwiązanie 1} (wynikające z zależności funkcyjnej 1.)\\
+\textbf{Rozwiązanie 1} \textit{(wynikające z zależności funkcyjnej 1.)}\\
 
 \texttt{\{{\color{green}\faKey}{\color{blue}\faKey}Ulica,
 {\color{green}\faKey}Miasto, {\color{green}\faKey}Województwo,
@@ -265,7 +265,7 @@ W przypadku wersji z atrybutem \texttt{ IdAdresu } otrzymalibyśmy:
 \textbf{"Zgubiliśmy" zależność funkcyjną nr 1}. Uzyskanie miasta i województwa
 pracownika \underline{wymaga złączenia trzech tabel}.\\
 
-\textbf{Rozwiązanie 2} (wynikające z zależności funkcyjnej 1.)\\
+\textbf{Rozwiązanie 2} \textit{(wynikające z zależności funkcyjnej 2.)}\\
 
 \texttt{\{{\color{green}\faKey}KodPocztowy, Miasto, Województwo\}}\\
 \texttt{\{{\color{green}\faKey}NrPracownika, Ulica, KodPocztowy\}}\\
